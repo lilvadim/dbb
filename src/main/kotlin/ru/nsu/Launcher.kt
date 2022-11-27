@@ -1,3 +1,5 @@
 package ru.nsu
 
-fun main() {}
+fun main() {
+    println("hello")
+}
