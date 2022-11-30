@@ -31,9 +31,14 @@ public class Driver {
     private static final String FKTABLE_NAME = "FKTABLE_NAME";
     private static final String PKCOLUMN_NAME = "PKCOLUMN_NAME";
     private static final String FKCOLUMN_NAME = "FKCOLUMN_NAME";
+
+    private static final String INDEX_NAME = "INDEX_NAME";
+
+    private static final String NON_UNIQUE = "NON_UNIQUE";
     public Database getDatabaseMeta() throws SQLException {
         Database database = new Database();
         var metaData = connection.getMetaData();
+
         ArrayList<CataLog> catalogs = new ArrayList<>();
         try (var resultSetCatalogs = metaData.getCatalogs()){
             if (!resultSetCatalogs.isBeforeFirst()) {
@@ -91,6 +96,7 @@ public class Driver {
             table.setColumns(this.getColumns(catalogName, schemaName, tableName, metaData));
             table.setPrimaryKeys(this.getPrimaryKeys(catalogName, schemaName, tableName, metaData));
             table.setForeignKeys(this.getForeignKeys(catalogName, schemaName, tableName, metaData));
+            table.setIndexes(this.getIndexes(catalogName, schemaName, tableName, metaData));
             tables.add(table);
         }
         return tables;
@@ -145,6 +151,21 @@ public class Driver {
             }
         }
         return foreignKeys;
+    }
+
+    private ArrayList<Index> getIndexes(String catalogName, String schemaName, String tableName, DatabaseMetaData metaData) throws SQLException {
+        ArrayList<Index> indexes = new ArrayList<>();
+        try (var resultSetIndexes = metaData.getIndexInfo(catalogName, schemaName, tableName, true, false)){
+            while (resultSetIndexes.next()) {
+                Index index = new Index(
+                        resultSetIndexes.getString(INDEX_NAME),
+                        resultSetIndexes.getBoolean(NON_UNIQUE),
+                        resultSetIndexes.getString(COLUMN_NAME)
+                );
+                indexes.add(index);
+            }
+        }
+        return indexes;
     }
 }
 
