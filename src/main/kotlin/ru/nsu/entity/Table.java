@@ -8,8 +8,18 @@ public class Table {
     private ArrayList<PrimaryKey> primaryKeys;
     private ArrayList<ForeignKey> foreignKeys;
 
+    private ArrayList<Index> indexes;
+
     public Table(String name) {
         this.name = name;
+    }
+
+    public ArrayList<Index> getIndexes() {
+        return indexes;
+    }
+
+    public void setIndexes(ArrayList<Index> indexes) {
+        this.indexes = indexes;
     }
 
     public ArrayList<Column> getColumns() {
