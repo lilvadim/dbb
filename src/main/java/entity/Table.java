@@ -1,4 +1,4 @@
-package ru.nsu.entity;
+package entity;
 
 import java.util.ArrayList;
 

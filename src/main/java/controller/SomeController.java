@@ -1,10 +1,10 @@
-package ru.nsu.controller;
+package controller;
 
 import java.sql.SQLException;
 
-import ru.nsu.driver.Driver;
-import ru.nsu.entity.Database;
-import ru.nsu.entity.DatabaseStorage;
+import driver.Driver;
+import entity.Database;
+import entity.DatabaseStorage;
 
 public class SomeController {
     Driver driver;

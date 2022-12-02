@@ -1,12 +1,10 @@
-package ru.nsu.driver;
+package driver;
 
-import ru.nsu.entity.*;
+import entity.*;
 
-import java.sql.Connection;
-import java.sql.DatabaseMetaData;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
+
 
 public class Driver {
     private Connection connection;
@@ -166,6 +164,10 @@ public class Driver {
             }
         }
         return indexes;
+    }
+
+    public Statement createStatement() throws SQLException {
+        return connection.createStatement();
     }
 }
 
