@@ -1,4 +1,4 @@
-package sqlParser;
+package ru.nsu.dbb.sql;
 
 public enum QueryType {
     SELECT,

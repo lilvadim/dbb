@@ -1,7 +1,9 @@
+package ru.nsu.dbb.sql;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import sqlParser.QueryType;
-import sqlParser.SqlParser;
+import ru.nsu.dbb.sql.QueryType;
+import ru.nsu.dbb.sql.SqlParser;
 
 public class SqlParserTest {
     @Test

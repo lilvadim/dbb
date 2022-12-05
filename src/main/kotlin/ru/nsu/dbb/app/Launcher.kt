@@ -1,4 +1,4 @@
-package ru.nsu
+package ru.nsu.dbb.app
 
 fun main() {
     println("hello")

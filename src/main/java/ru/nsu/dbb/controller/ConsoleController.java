@@ -1,10 +1,10 @@
-package controller;
+package ru.nsu.dbb.controller;
 
-import driver.Driver;
-import entity.DatabaseStorage;
-import exceptions.QueryNotModifiableException;
-import exceptions.UnknownQueryTypeException;
-import sqlParser.SqlParser;
+import ru.nsu.dbb.exceptions.QueryNotModifiableException;
+import ru.nsu.dbb.exceptions.UnknownQueryTypeException;
+import ru.nsu.dbb.driver.Driver;
+import ru.nsu.dbb.entity.DatabaseStorage;
+import ru.nsu.dbb.sql.SqlParser;
 
 import java.sql.SQLException;
 

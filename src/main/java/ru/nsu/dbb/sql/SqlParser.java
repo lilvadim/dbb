@@ -1,4 +1,4 @@
-package sqlParser;
+package ru.nsu.dbb.sql;
 
 public class SqlParser {
     private static final String SELECT_QUERY_TYPE = "SELECT";

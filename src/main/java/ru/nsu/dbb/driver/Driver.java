@@ -1,6 +1,6 @@
-package driver;
+package ru.nsu.dbb.driver;
 
-import entity.*;
+import ru.nsu.dbb.entity.*;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -102,7 +102,7 @@ public class Driver {
 
     private ArrayList<Column> getColumns(String catalogName, String schemaName, String tableName, DatabaseMetaData metaData) throws SQLException {
         ArrayList<Column> columns = new ArrayList<>();
-        try (var resultSetColumns = metaData.getColumns(catalogName, schemaName, tableName, null);) {
+        try (var resultSetColumns = metaData.getColumns(catalogName, schemaName, tableName, null)) {
             while (resultSetColumns.next()) {
                 var columnName = resultSetColumns.getString(COLUMN_NAME);
                 var columnSize = resultSetColumns.getString(COLUMN_SIZE);

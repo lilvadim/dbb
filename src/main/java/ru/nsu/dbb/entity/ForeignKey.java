@@ -1,4 +1,4 @@
-package entity;
+package ru.nsu.dbb.entity;
 
 import java.util.HashMap;
 

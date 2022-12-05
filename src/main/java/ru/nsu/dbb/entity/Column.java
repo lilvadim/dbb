@@ -1,4 +1,4 @@
-package entity;
+package ru.nsu.dbb.entity;
 
 public class Column {
     private String name;
