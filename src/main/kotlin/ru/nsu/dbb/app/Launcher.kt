@@ -1,5 +1,7 @@
 package ru.nsu.dbb.app
 
+import javafx.application.Application.launch
+
 fun main() {
-    println("hello")
+    launch(DbbApplication::class.java)
 }
