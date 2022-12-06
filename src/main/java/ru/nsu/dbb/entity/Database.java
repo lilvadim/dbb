@@ -8,7 +8,7 @@ public class Database {
     private String user;
     private String password;
 
-    private ArrayList<CataLog> cataLogs;
+    private ArrayList<Catalog> catalogs;
 
     public Database() {
     }
@@ -37,6 +37,7 @@ public class Database {
     public String getPassword() {
         return password;
     }
+
     public String getName() {
         return name;
     }
@@ -45,11 +46,11 @@ public class Database {
         this.name = name;
     }
 
-    public ArrayList<CataLog> getCatalogs() {
-        return cataLogs;
+    public ArrayList<Catalog> getCatalogs() {
+        return catalogs;
     }
 
-    public void setCatalogs(ArrayList<CataLog> cataLogs) {
-        this.cataLogs = cataLogs;
+    public void setCatalogs(ArrayList<Catalog> catalogs) {
+        this.catalogs = catalogs;
     }
 }

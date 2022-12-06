@@ -37,15 +37,15 @@ public class Driver {
         Database database = new Database();
         var metaData = connection.getMetaData();
 
-        ArrayList<CataLog> catalogs = new ArrayList<>();
+        ArrayList<Catalog> catalogs = new ArrayList<>();
         try (var resultSetCatalogs = metaData.getCatalogs()){
             if (!resultSetCatalogs.isBeforeFirst()) {
-                CataLog catalog = new CataLog();
+                Catalog catalog = new Catalog();
                 catalog.setSchemas(this.getSchemas(null, metaData));
                 catalogs.add(catalog);
             } else {
                 while (resultSetCatalogs.next()) {
-                    CataLog cataLog = new CataLog();
+                    Catalog cataLog = new Catalog();
                     var currentCatalogName = resultSetCatalogs.getString(TABLE_CAT);
                     cataLog.setSchemas(this.getSchemas(currentCatalogName, metaData));
                     cataLog.setName(currentCatalogName);

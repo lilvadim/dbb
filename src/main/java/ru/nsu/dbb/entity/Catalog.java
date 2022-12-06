@@ -2,7 +2,7 @@ package ru.nsu.dbb.entity;
 
 import java.util.ArrayList;
 
-public class CataLog {
+public class Catalog {
     private String name;
     private ArrayList<Schema> schemas;
 
