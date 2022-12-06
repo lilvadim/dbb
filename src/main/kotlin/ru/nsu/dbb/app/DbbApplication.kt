@@ -1,18 +1,18 @@
 package ru.nsu.dbb.app
 
-import com.google.inject.Guice
-import javafx.application.Application
+import com.google.inject.Key
+import com.google.inject.name.Names
 import javafx.stage.Stage
+import ru.nucodelabs.kfx.core.GuiceApplication
 
-class DbbApplication : Application() {
-
-    private val injector = Guice.createInjector()
-
-    override fun init() {
-        injector.injectMembers(this)
-    }
+class DbbApplication : GuiceApplication(AppModule()) {
 
     override fun start(primaryStage: Stage?) {
-
+        guiceInjector.getInstance(
+            Key.get(
+                Stage::class.java,
+                Names.named("MainView")
+            )
+        ).show()
     }
 }
