@@ -31,21 +31,10 @@ public class AppModule extends AbstractModule {
 
     @Provides
     @Named("MainView")
-    URL mainViewFXML() {
-        return MainController.class.getResource("MainView.fxml");
-    }
-
-    @Provides
-    @Named("MainView")
-    FXMLLoader fxmlLoader(ResourceBundle uiProperties, Injector injector, @Named("MainView") URL url) {
+    Stage mainViewStage(Injector injector, ResourceBundle uiProperties) throws IOException {
+        URL url = MainController.class.getResource("MainView.fxml");
         FXMLLoader fxmlLoader = new FXMLLoader(url, uiProperties);
         fxmlLoader.setControllerFactory(injector::getInstance);
-        return fxmlLoader;
-    }
-
-    @Provides
-    @Named("MainView")
-    Stage mainViewStage(@Named("MainView") FXMLLoader loader) throws IOException {
-        return loader.load();
+        return fxmlLoader.load();
     }
 }
