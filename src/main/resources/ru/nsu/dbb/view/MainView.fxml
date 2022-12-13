@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?language groovy?>
 
-<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.Scene?>
 <?import javafx.stage.Stage?>
@@ -15,11 +15,12 @@
         }
     </fx:script>
     <scene>
-        <Scene>
+        <Scene stylesheets="@common.css">
             <VBox>
-                <Label>
-                    Hello!
-                </Label>
+                <SplitPane>
+                    <fx:include source="DatabaseExplorer.fxml" VBox.vgrow="ALWAYS"/>
+                    <fx:include source="QueryConsoleView.fxml" VBox.vgrow="ALWAYS"/>
+                </SplitPane>
             </VBox>
         </Scene>
     </scene>

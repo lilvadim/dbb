@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TreeView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<VBox xmlns:fx="http://javafx.com/fxml" fx:id="root"
+      xmlns="http://javafx.com/javafx"
+      fx:controller="ru.nsu.dbb.view.DatabaseExplorerViewController">
+    <HBox>
+        <HBox HBox.hgrow="ALWAYS" alignment="CENTER_LEFT">
+            <Label text="Database Explorer" styleClass="ui-label"/>
+        </HBox>
+    </HBox>
+    <TreeView/>
+</VBox>
