@@ -7,7 +7,8 @@
 <?import javafx.scene.layout.*?>
 <VBox xmlns:fx="http://javafx.com/fxml" fx:id="root"
       xmlns="http://javafx.com/javafx"
-      fx:controller="ru.nsu.dbb.view.DatabaseExplorerViewController">
+      fx:controller="ru.nsu.dbb.view.DatabaseExplorerViewController"
+      maxWidth="Infinity" maxHeight="Infinity">
     <fx:define>
         <fx:include source="CreateDatabaseScreen.fxml" fx:id="createDatabaseScreen"/>
     </fx:define>
@@ -28,5 +29,5 @@
             <Button text="Create" styleClass="ui-label" onAction="openCreateDatabaseScreen()"/>
         </HBox>
     </HBox>
-    <TreeView/>
+    <TreeView VBox.vgrow="ALWAYS"/>
 </VBox>

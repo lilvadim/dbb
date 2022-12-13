@@ -2,7 +2,7 @@
 <?language groovy?>
 
 <?import javafx.scene.control.SplitPane?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.Scene?>
 <?import javafx.stage.Stage?>
 <Stage xmlns:fx="http://javafx.com/fxml"
@@ -16,10 +16,13 @@
     </fx:script>
     <scene>
         <Scene stylesheets="@common.css">
-            <VBox>
-                <SplitPane>
+            <VBox maxHeight="Infinity" maxWidth="Infinity">
+                <SplitPane maxHeight="Infinity" maxWidth="Infinity" VBox.vgrow="ALWAYS">
                     <fx:include source="DatabaseExplorer.fxml" VBox.vgrow="ALWAYS"/>
-                    <fx:include source="QueryConsoleView.fxml" VBox.vgrow="ALWAYS"/>
+                    <SplitPane orientation="VERTICAL" VBox.vgrow="ALWAYS">
+                        <fx:include source="QueryConsoleView.fxml" VBox.vgrow="ALWAYS"/>
+                        <fx:include source="OutputView.fxml" VBox.vgrow="ALWAYS"/>
+                    </SplitPane>
                 </SplitPane>
             </VBox>
         </Scene>
