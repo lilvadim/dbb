@@ -2,3 +2,8 @@
     -fx-padding: 5;
     -fx-font-size: 14;
 }
+
+.title-label {
+    -fx-padding: 5;
+    -fx-font-size: 18;
+}
