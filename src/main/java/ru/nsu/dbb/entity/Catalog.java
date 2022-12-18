@@ -2,13 +2,14 @@ package ru.nsu.dbb.entity;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.util.List;
 
 public class Catalog {
     private final StringProperty name = new SimpleStringProperty();
-    private ObservableList<Schema> schemas;
+    private final ObservableList<Schema> schemas = FXCollections.observableArrayList();
 
     public String getName() {
         return name.get();
