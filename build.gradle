@@ -24,7 +24,6 @@ javafx {
 repositories {
     mavenCentral()
     maven { url 'https://jitpack.io' }
-
 }
 
 dependencies {
@@ -48,17 +47,12 @@ application {
     mainClass = 'ru.nsu.LauncherKt'
 }
 
-test {
-    useJUnitPlatform()
+task copyTestResources(type: Copy) {
+    from "${projectDir}/src/test/resources"
+    into "${buildDir}/classes/test"
 }
 
-sourceSets {
-    test {
-        java {
-            srcDirs = ['src/test/java']
-        }
-        kotlin {
-            srcDirs = ['src/test/kotlin']
-        }
-    }
+test {
+    dependsOn copyTestResources
+    useJUnitPlatform()
 }
