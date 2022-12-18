@@ -3,29 +3,31 @@ package ru.nsu.dbb.entity;
 import java.util.HashMap;
 
 public class ForeignKey {
-    private HashMap<String, String> mapFKOnPK;
-    private String PKTableName;
-    private String FKTableName;
+    private final HashMap<String, String> mapFKOnPK;
+    private String primaryKeyTableName;
+    private String foreignKeyTableName;
 
     public ForeignKey() {
         mapFKOnPK = new HashMap<>();
     }
+
     public void addMapping(String FK, String PK) {
         mapFKOnPK.put(FK, PK);
     }
-    public String getPKTableName() {
-        return PKTableName;
+
+    public String getPrimaryKeyTableName() {
+        return primaryKeyTableName;
     }
 
-    public void setPKTableName(String PKTableName) {
-        this.PKTableName = PKTableName;
+    public void setPrimaryKeyTableName(String primaryKeyTableName) {
+        this.primaryKeyTableName = primaryKeyTableName;
     }
 
-    public String getFKTableName() {
-        return FKTableName;
+    public String getForeignKeyTableName() {
+        return foreignKeyTableName;
     }
 
-    public void setFKTableName(String FKTableName) {
-        this.FKTableName = FKTableName;
+    public void setForeignKeyTableName(String foreignKeyTableName) {
+        this.foreignKeyTableName = foreignKeyTableName;
     }
 }

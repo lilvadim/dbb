@@ -143,8 +143,8 @@ public class Driver {
                     foreignKey = new ForeignKey();
                 }
                 foreignKey.addMapping(fkColumnName, pkColumnName);
-                foreignKey.setPKTableName(pkTableName);
-                foreignKey.setFKTableName(fkTableName);
+                foreignKey.setPrimaryKeyTableName(pkTableName);
+                foreignKey.setForeignKeyTableName(fkTableName);
                 foreignKeys.add(foreignKey);
             }
         }

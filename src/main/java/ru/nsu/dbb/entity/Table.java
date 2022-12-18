@@ -3,7 +3,7 @@ package ru.nsu.dbb.entity;
 import java.util.ArrayList;
 
 public class Table {
-    private String name;
+    private final String name;
     private ArrayList<Column> columns;
     private ArrayList<PrimaryKey> primaryKeys;
     private ArrayList<ForeignKey> foreignKeys;
@@ -12,6 +12,10 @@ public class Table {
 
     public Table(String name) {
         this.name = name;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public ArrayList<Index> getIndexes() {
