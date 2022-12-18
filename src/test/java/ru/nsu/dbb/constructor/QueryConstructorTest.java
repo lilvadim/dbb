@@ -6,8 +6,6 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class QueryConstructorTest {
 
     @Test
@@ -21,8 +19,8 @@ class QueryConstructorTest {
         );
 
         Assertions.assertEquals(
-          "ALTER TABLE my_table ADD COLUMN new_col String not null",
-          actual
+                "ALTER TABLE my_table ADD COLUMN new_col String not null",
+                actual
         );
     }
 

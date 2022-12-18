@@ -15,10 +15,10 @@
                 <Label text="Create Database" styleClass="title-label"/>
                 <Label text="Path to *.db file"/>
                 <HBox spacing="5">
-                    <TextField promptText="Path to *.db file"/>
+                    <Label fx:id="fileNameLabel" text="Not selected"/>
                     <Button text="Choose" onAction="#chooseFile"/>
                 </HBox>
-                <Button text="Create"/>
+                <Button fx:id="createButton" text="Create" onAction="#create"/>
             </VBox>
         </Scene>
     </scene>

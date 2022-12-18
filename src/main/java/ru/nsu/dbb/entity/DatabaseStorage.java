@@ -1,12 +1,13 @@
 package ru.nsu.dbb.entity;
 
-import java.util.HashMap;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableMap;
 
 public class DatabaseStorage {
-    private final HashMap<String, Database> storage;
+    private final ObservableMap<String, Database> storage;
 
     DatabaseStorage() {
-        storage = new HashMap<>();
+        storage = FXCollections.observableHashMap();
     }
 
     public boolean addDatabase(Database database) {
@@ -15,5 +16,9 @@ public class DatabaseStorage {
 
     public Database getDatabase(String databaseName) {
         return storage.get(databaseName);
+    }
+
+    public ObservableMap<String, Database> getStorage() {
+        return storage;
     }
 }
