@@ -12,6 +12,8 @@ import ru.nucodelabs.kfx.core.AbstractController
 import ru.nucodelabs.kfx.ext.getValue
 import ru.nucodelabs.kfx.ext.setValue
 import java.io.File
+import java.net.URL
+import java.util.*
 import javax.inject.Inject
 
 class CreateDatabaseScreenController @Inject constructor(
@@ -32,7 +34,8 @@ class CreateDatabaseScreenController @Inject constructor(
     private val _chosenFileProperty: ObjectProperty<File> = SimpleObjectProperty()
     private var chosenFile: File? by _chosenFileProperty
 
-    init {
+    override fun initialize(location: URL, resources: ResourceBundle) {
+        super.initialize(location, resources)
         _chosenFileProperty.addListener { _, _, newValue ->
             createButton.isDisable = (newValue == null)
         }

@@ -12,10 +12,11 @@ import java.util.*
 import javax.inject.Inject
 
 class DatabaseExplorerViewController @Inject constructor(
-    private val databaseStorage: DatabaseStorage
+    private val databaseStorage: DatabaseStorage,
+    private val parser: DatabaseStorageToTreeParser
 ) : AbstractController() {
     @FXML
-    private lateinit var treeView: TreeView<Any>
+    private lateinit var treeView: TreeView<String>
 
     @FXML
     private lateinit var root: VBox
@@ -24,8 +25,8 @@ class DatabaseExplorerViewController @Inject constructor(
 
     override fun initialize(location: URL, resources: ResourceBundle) {
         super.initialize(location, resources)
-        databaseStorage.storage.addListener(MapChangeListener { c ->
-            println(c.valueAdded)
+        databaseStorage.storage.addListener(MapChangeListener {
+            treeView.root = parser.parse(databaseStorage)
         })
     }
 }
