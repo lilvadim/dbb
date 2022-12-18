@@ -1,24 +1,32 @@
 package ru.nsu.dbb.entity;
 
-import java.util.ArrayList;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+import javafx.collections.ObservableList;
+
+import java.util.List;
 
 public class Catalog {
-    private String name;
-    private ArrayList<Schema> schemas;
+    private final StringProperty name = new SimpleStringProperty();
+    private ObservableList<Schema> schemas;
 
     public String getName() {
-        return name;
+        return name.get();
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.name.set(name);
     }
 
-    public ArrayList<Schema> getSchemas() {
+    public ObservableList<Schema> getSchemas() {
         return schemas;
     }
 
-    public void setSchemas(ArrayList<Schema> schemas) {
-        this.schemas = schemas;
+    public void setSchemas(List<Schema> schemas) {
+        this.schemas.setAll(schemas);
+    }
+
+    public StringProperty nameProperty() {
+        return name;
     }
 }

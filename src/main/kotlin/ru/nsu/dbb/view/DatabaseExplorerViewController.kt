@@ -5,6 +5,7 @@ import javafx.fxml.FXML
 import javafx.scene.control.TreeView
 import javafx.scene.layout.VBox
 import javafx.stage.Stage
+import ru.nsu.dbb.controller.DatabaseConnectivityController
 import ru.nsu.dbb.entity.DatabaseStorage
 import ru.nucodelabs.kfx.core.AbstractController
 import java.net.URL
@@ -13,7 +14,8 @@ import javax.inject.Inject
 
 class DatabaseExplorerViewController @Inject constructor(
     private val databaseStorage: DatabaseStorage,
-    private val parser: DatabaseStorageToTreeParser
+    private val parser: DatabaseStorageToTreeParser,
+    private val databaseConnectivityController: DatabaseConnectivityController
 ) : AbstractController() {
     @FXML
     private lateinit var treeView: TreeView<String>
@@ -28,5 +30,10 @@ class DatabaseExplorerViewController @Inject constructor(
         databaseStorage.storage.addListener(MapChangeListener {
             treeView.root = parser.parse(databaseStorage)
         })
+    }
+
+    @FXML
+    private fun refreshAll() {
+        databaseStorage.storage.keys.forEach { databaseConnectivityController.refreshDatabase(it) }
     }
 }

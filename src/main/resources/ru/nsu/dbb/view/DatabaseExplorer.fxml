@@ -23,10 +23,11 @@
         }
     </fx:script>
     <HBox>
-        <HBox HBox.hgrow="ALWAYS" alignment="CENTER_LEFT" style="-fx-padding: 5;">
+        <HBox HBox.hgrow="ALWAYS" alignment="CENTER_LEFT" style="-fx-padding: 5;" spacing="5">
             <Label text="Database Explorer" styleClass="ui-label"/>
             <HBox HBox.hgrow="ALWAYS"/>
-            <Button text="Create" styleClass="ui-label" onAction="openCreateDatabaseScreen()"/>
+            <Button text="Refresh" styleClass="ui-label" onAction="#refreshAll"/>
+            <Button text="Add new" styleClass="ui-label" onAction="openCreateDatabaseScreen()"/>
         </HBox>
     </HBox>
     <TreeView VBox.vgrow="ALWAYS" fx:id="treeView" showRoot="false"/>

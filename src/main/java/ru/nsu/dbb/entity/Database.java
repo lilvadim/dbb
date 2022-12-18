@@ -1,18 +1,19 @@
 package ru.nsu.dbb.entity;
 
-import java.util.ArrayList;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
+import java.util.List;
 
 public class Database {
-    private String name;
+    private final StringProperty name = new SimpleStringProperty();
     private String URL;
     private String user;
     private String password;
 
-    private ArrayList<Catalog> catalogs;
-
-    public Database() {
-    }
-
+    private final ObservableList<Catalog> catalogs = FXCollections.observableArrayList();
 
     public void setURL(String URL) {
         this.URL = URL;
@@ -39,18 +40,22 @@ public class Database {
     }
 
     public String getName() {
-        return name;
+        return name.get();
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.name.set(name);
     }
 
-    public ArrayList<Catalog> getCatalogs() {
+    public ObservableList<Catalog> getCatalogs() {
         return catalogs;
     }
 
-    public void setCatalogs(ArrayList<Catalog> catalogs) {
-        this.catalogs = catalogs;
+    public void setCatalogs(List<Catalog> catalogs) {
+        this.catalogs.setAll(catalogs);
+    }
+
+    public StringProperty nameProperty() {
+        return name;
     }
 }
