@@ -24,6 +24,7 @@ javafx {
 repositories {
     mavenCentral()
     maven { url 'https://jitpack.io' }
+
 }
 
 dependencies {
@@ -36,7 +37,8 @@ dependencies {
     testImplementation 'org.jetbrains.kotlin:kotlin-test'
     testImplementation 'org.junit.jupiter:junit-jupiter:5.9.0'
     testImplementation "org.openjfx:javafx:${jfxVersion}"
-
+    testImplementation 'org.assertj:assertj-core:3.23.1'
+    testImplementation files('/Users/vaceslavhaverko/Downloads/sqlite-jdbc-3.40.0.0.jar')
 }
 
 application {
@@ -46,4 +48,12 @@ application {
 
 test {
     useJUnitPlatform()
+}
+
+sourceSets {
+    test {
+        java {
+            srcDirs = ['src/test']
+        }
+    }
 }
