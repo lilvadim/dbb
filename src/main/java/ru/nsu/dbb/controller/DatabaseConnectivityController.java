@@ -1,32 +1,27 @@
 package ru.nsu.dbb.controller;
 
-import java.sql.SQLException;
-
 import ru.nsu.dbb.driver.Driver;
 import ru.nsu.dbb.entity.Database;
 import ru.nsu.dbb.entity.DatabaseStorage;
 
-public class SomeController {
-    Driver driver;
+import javax.inject.Inject;
+import java.sql.SQLException;
 
-    DatabaseStorage databaseStorage;
-    public SomeController(Driver driver, DatabaseStorage databaseStorage) {
+public class DatabaseConnectivityController {
+    private final Driver driver;
+
+    private final DatabaseStorage databaseStorage;
+
+    @Inject
+    public DatabaseConnectivityController(Driver driver, DatabaseStorage databaseStorage) {
         this.driver = driver;
         this.databaseStorage = databaseStorage;
     }
 
-    public void createDatabase(String databaseName, String url, String user, String password) {
-        try {
-            driver.openConnection(url, user, password);
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-        Database database = null;
-        try {
-            database = driver.getDatabaseMeta();
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
+    public void createDatabase(String databaseName, String url, String user, String password) throws SQLException {
+        driver.openConnection(url, user, password);
+        Database database;
+        database = driver.getDatabaseMeta();
         if (database != null) {
             database.setName(databaseName);
             database.setPassword(password);
@@ -36,7 +31,7 @@ public class SomeController {
                 System.out.println("DB exists");
             }
         } else {
-            System.out.println("Some error");
+            throw new RuntimeException("Some error");
         }
     }
 

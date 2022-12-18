@@ -1,7 +1,6 @@
 package ru.nsu.dbb.driver;
 
 import org.junit.jupiter.api.Test;
-import ru.nsu.dbb.driver.Driver;
 import ru.nsu.dbb.entity.*;
 
 import java.sql.SQLException;
@@ -10,6 +9,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+
 class DriverTest {
 
     @Test

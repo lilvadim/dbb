@@ -33,12 +33,14 @@ dependencies {
     implementation group: 'com.google.inject', name: 'guice', version: '5.1.0'
     implementation 'com.github.lilvadim:kfx-utils:766c9b9a68'
     implementation 'org.codehaus.groovy:groovy-all:3.0.13'
+//    implementation 'org.xerial:sqlite-jdbc:3.40.0.0'
 
     testImplementation 'org.jetbrains.kotlin:kotlin-test'
+    testImplementation 'org.xerial:sqlite-jdbc:3.40.0.0'
     testImplementation 'org.junit.jupiter:junit-jupiter:5.9.0'
     testImplementation "org.openjfx:javafx:${jfxVersion}"
     testImplementation 'org.assertj:assertj-core:3.23.1'
-    testImplementation files('/Users/vaceslavhaverko/Downloads/sqlite-jdbc-3.40.0.0.jar')
+//    testImplementation files('/Users/vaceslavhaverko/Downloads/sqlite-jdbc-3.40.0.0.jar')
 }
 
 application {

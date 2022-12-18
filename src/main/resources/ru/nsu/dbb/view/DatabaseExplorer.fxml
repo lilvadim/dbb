@@ -29,5 +29,5 @@
             <Button text="Create" styleClass="ui-label" onAction="openCreateDatabaseScreen()"/>
         </HBox>
     </HBox>
-    <TreeView VBox.vgrow="ALWAYS"/>
+    <TreeView VBox.vgrow="ALWAYS" fx:id="treeView"/>
 </VBox>
