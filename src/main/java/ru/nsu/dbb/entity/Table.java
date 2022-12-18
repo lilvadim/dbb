@@ -1,52 +1,64 @@
 package ru.nsu.dbb.entity;
 
-import java.util.ArrayList;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
+import java.util.List;
 
 public class Table {
-    private final String name;
-    private ArrayList<Column> columns;
-    private ArrayList<PrimaryKey> primaryKeys;
-    private ArrayList<ForeignKey> foreignKeys;
-
-    private ArrayList<Index> indexes;
+    private final StringProperty name = new SimpleStringProperty();
+    private final ObservableList<Column> columns = FXCollections.observableArrayList();
+    private final ObservableList<PrimaryKey> primaryKeys = FXCollections.observableArrayList();
+    private final ObservableList<ForeignKey> foreignKeys = FXCollections.observableArrayList();
+    private final ObservableList<Index> indexes = FXCollections.observableArrayList();
 
     public Table(String name) {
-        this.name = name;
+        setName(name);
     }
 
     public String getName() {
+        return name.get();
+    }
+
+    public void setName(String name) {
+        this.name.set(name);
+    }
+
+    public StringProperty nameProperty() {
         return name;
     }
 
-    public ArrayList<Index> getIndexes() {
-        return indexes;
-    }
-
-    public void setIndexes(ArrayList<Index> indexes) {
-        this.indexes = indexes;
-    }
-
-    public ArrayList<Column> getColumns() {
+    public ObservableList<Column> getColumns() {
         return columns;
     }
 
-    public void setColumns(ArrayList<Column> columns) {
-        this.columns = columns;
+    public void setColumns(List<Column> columns) {
+        this.columns.setAll(columns);
     }
 
-    public ArrayList<PrimaryKey> getPrimaryKeys() {
+    public ObservableList<PrimaryKey> getPrimaryKeys() {
         return primaryKeys;
     }
 
-    public void setPrimaryKeys(ArrayList<PrimaryKey> primaryKeys) {
-        this.primaryKeys = primaryKeys;
+    public void setPrimaryKeys(List<PrimaryKey> primaryKeys) {
+        this.primaryKeys.setAll(primaryKeys);
     }
 
-    public ArrayList<ForeignKey> getForeignKeys() {
+    public ObservableList<ForeignKey> getForeignKeys() {
         return foreignKeys;
     }
 
-    public void setForeignKeys(ArrayList<ForeignKey> foreignKeys) {
-        this.foreignKeys = foreignKeys;
+    public void setForeignKeys(List<ForeignKey> foreignKeys) {
+        this.foreignKeys.setAll(foreignKeys);
+    }
+
+    public ObservableList<Index> getIndexes() {
+        return indexes;
+    }
+
+    public void setIndexes(List<Index> indexes) {
+        this.indexes.setAll(indexes);
     }
 }
