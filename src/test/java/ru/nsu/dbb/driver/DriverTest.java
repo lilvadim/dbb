@@ -15,7 +15,7 @@ class DriverTest {
     @Test
     void getDatabaseMeta() throws SQLException {
         Driver driver = new Driver();
-        driver.openConnection("jdbc:sqlite:test.db", "", "");
+        driver.openConnection("jdbc:sqlite:src/test/resources/test.db", "", "");
         Database actualDatabase = driver.getDatabaseMeta();
         var expected = new Database();
         ArrayList<Column> columns = new ArrayList<>(Arrays.asList(

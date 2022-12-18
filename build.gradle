@@ -47,12 +47,6 @@ application {
     mainClass = 'ru.nsu.LauncherKt'
 }
 
-task copyTestResources(type: Copy) {
-    from "${projectDir}/src/test/resources"
-    into "${buildDir}/classes/test"
-}
-
 test {
-    dependsOn copyTestResources
     useJUnitPlatform()
 }
