@@ -1,13 +1,14 @@
 package ru.nsu.dbb.entity;
 
+import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableMap;
 
 public class ForeignKey {
     private final ObservableMap<String, String> mapForeignKeyToPrimaryKey = FXCollections.observableHashMap();
-    private StringProperty primaryKeyTableName;
-    private StringProperty foreignKeyTableName;
+    private final StringProperty primaryKeyTableName = new SimpleStringProperty();
+    private final StringProperty foreignKeyTableName = new SimpleStringProperty();
 
     public void addMapping(String FK, String PK) {
         mapForeignKeyToPrimaryKey.put(FK, PK);
