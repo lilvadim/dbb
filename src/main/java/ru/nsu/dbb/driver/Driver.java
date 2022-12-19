@@ -4,6 +4,7 @@ import ru.nsu.dbb.entity.*;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Properties;
 
 
 public class Driver {
@@ -12,7 +13,10 @@ public class Driver {
     public void openConnection(String url, String user, String password) throws SQLException {
         if (connection != null)
             connection.close();
-        connection = DriverManager.getConnection(url, user, password);
+        Properties info = new Properties();
+        info.setProperty("user", user);
+        info.setProperty("password", password);
+        connection = JdbcDrivers.getDriver(url).connect(url, info);
     }
 
     private static final String TABLE_CAT = "TABLE_CAT";
