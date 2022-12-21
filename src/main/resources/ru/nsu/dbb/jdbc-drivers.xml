@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<drivers>
+    <driver name="sqlite-jdbc-3.40.0.0.jar" subprotocol="jdbc:sqlite:" url="https://github.com/xerial/sqlite-jdbc/releases/download/3.40.0.0/sqlite-jdbc-3.40.0.0.jar" />
+    <driver name="postgresql-42.5.1.jar" subprotocol="jdbc:postgresql:" url="https://jdbc.postgresql.org/download/postgresql-42.5.1.jar" />
+</drivers>
