@@ -30,7 +30,7 @@ dependencies {
     implementation platform('org.jetbrains.kotlin:kotlin-bom')
     implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
     implementation group: 'com.google.inject', name: 'guice', version: '5.1.0'
-    implementation 'com.github.lilvadim:kfx-utils:766c9b9a68'
+    implementation 'com.github.lilvadim:kfx-utils:0b082c81d5'
     implementation 'org.codehaus.groovy:groovy-all:3.0.13'
     implementation 'org.xerial:sqlite-jdbc:3.40.0.0'
 

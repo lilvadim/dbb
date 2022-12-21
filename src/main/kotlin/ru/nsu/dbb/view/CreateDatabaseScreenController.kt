@@ -5,10 +5,10 @@ import javafx.beans.property.SimpleObjectProperty
 import javafx.fxml.FXML
 import javafx.scene.control.Button
 import javafx.scene.control.Label
+import javafx.scene.layout.VBox
 import javafx.stage.FileChooser
-import javafx.stage.Stage
 import ru.nsu.dbb.controller.DatabaseConnectivityController
-import ru.nucodelabs.kfx.core.AbstractController
+import ru.nucodelabs.kfx.core.AbstractViewController
 import ru.nucodelabs.kfx.ext.getValue
 import ru.nucodelabs.kfx.ext.setValue
 import java.io.File
@@ -19,17 +19,12 @@ import javax.inject.Inject
 class CreateDatabaseScreenController @Inject constructor(
     private val databaseConnectivityController: DatabaseConnectivityController,
     private val alertFactory: AlertFactory
-) : AbstractController() {
+) : AbstractViewController<VBox>() {
     @FXML
     private lateinit var createButton: Button
 
     @FXML
     private lateinit var fileNameLabel: Label
-
-    @FXML
-    private lateinit var root: Stage
-    override val stage: Stage
-        get() = root
 
     private val _chosenFileProperty: ObjectProperty<File> = SimpleObjectProperty()
     private var chosenFile: File? by _chosenFileProperty
@@ -59,7 +54,7 @@ class CreateDatabaseScreenController @Inject constructor(
                 "",
                 ""
             )
-            stage.hide()
+            stage!!.hide()
         } catch (e: Exception) {
             alertFactory.simpleExceptionAlert(e, stage).show()
         }

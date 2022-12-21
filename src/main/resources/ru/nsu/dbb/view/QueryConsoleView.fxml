@@ -12,8 +12,8 @@
         <HBox style="-fx-padding: 5;" HBox.hgrow="ALWAYS">
             <Label text="Query Console" styleClass="ui-label"/>
             <HBox HBox.hgrow="ALWAYS"/>
-            <Button text="Run Query" styleClass="ui-label"/>
+            <Button text="Run Query" styleClass="ui-label" onAction="#runQuery"/>
         </HBox>
     </HBox>
-    <TextArea VBox.vgrow="ALWAYS"/>
+    <TextArea VBox.vgrow="ALWAYS" fx:id="textArea"/>
 </VBox>

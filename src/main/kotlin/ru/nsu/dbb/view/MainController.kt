@@ -1,12 +1,6 @@
 package ru.nsu.dbb.view
 
-import javafx.fxml.FXML
-import javafx.stage.Stage
-import ru.nucodelabs.kfx.core.AbstractController
+import javafx.scene.layout.VBox
+import ru.nucodelabs.kfx.core.AbstractViewController
 
-class MainController : AbstractController() {
-    @FXML
-    private lateinit var _stage: Stage
-    override val stage: Stage
-        get() = _stage
-}
+class MainController : AbstractViewController<VBox>()

@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <VBox xmlns:fx="http://javafx.com/fxml"
       xmlns="http://javafx.com/javafx"
-      fx:controller="ru.nsu.dbb.view.OutputViewController">
+      fx:controller="ru.nsu.dbb.view.OutputViewController" fx:id="root">
     <HBox alignment="CENTER_LEFT">
         <HBox HBox.hgrow="ALWAYS" style="-fx-padding: 5;">
             <Label text="Output" styleClass="ui-label"/>

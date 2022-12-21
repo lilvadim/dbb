@@ -8,10 +8,10 @@
 <Stage xmlns:fx="http://javafx.com/fxml"
        xmlns="http://javafx.com/javafx"
        fx:controller="ru.nsu.dbb.view.CreateDatabaseScreenController"
-       fx:id="root" resizable="false" width="256">
+       resizable="false" width="256">
     <scene>
         <Scene stylesheets="@common.css">
-            <VBox spacing="10" style="-fx-padding: 10;" alignment="CENTER_LEFT">
+            <VBox spacing="10" style="-fx-padding: 10;" alignment="CENTER_LEFT" fx:id="root">
                 <Label text="Create Database" styleClass="title-label"/>
                 <Label text="Path to *.db file"/>
                 <HBox spacing="5" alignment="CENTER">
@@ -19,7 +19,7 @@
                     <HBox HBox.hgrow="ALWAYS"/>
                     <Button text="Choose" onAction="#chooseFile"/>
                 </HBox>
-                <Button fx:id="createButton" text="Create" onAction="#create" defaultButton="true" disable="true"/>
+                <Button fx:id="createButton" text="Add" onAction="#create" defaultButton="true" disable="true"/>
             </VBox>
         </Scene>
     </scene>
