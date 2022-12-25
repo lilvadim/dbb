@@ -1,31 +1,44 @@
 package ru.nsu.dbb.entity;
 
-import java.util.HashMap;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableMap;
 
 public class ForeignKey {
-    private HashMap<String, String> mapFKOnPK;
-    private String PKTableName;
-    private String FKTableName;
+    private final ObservableMap<String, String> mapForeignKeyToPrimaryKey = FXCollections.observableHashMap();
+    private final StringProperty primaryKeyTableName = new SimpleStringProperty();
+    private final StringProperty foreignKeyTableName = new SimpleStringProperty();
 
-    public ForeignKey() {
-        mapFKOnPK = new HashMap<>();
-    }
     public void addMapping(String FK, String PK) {
-        mapFKOnPK.put(FK, PK);
-    }
-    public String getPKTableName() {
-        return PKTableName;
+        mapForeignKeyToPrimaryKey.put(FK, PK);
     }
 
-    public void setPKTableName(String PKTableName) {
-        this.PKTableName = PKTableName;
+    public String getPrimaryKeyTableName() {
+        return primaryKeyTableName.get();
     }
 
-    public String getFKTableName() {
-        return FKTableName;
+    public void setPrimaryKeyTableName(String primaryKeyTableName) {
+        this.primaryKeyTableName.set(primaryKeyTableName);
     }
 
-    public void setFKTableName(String FKTableName) {
-        this.FKTableName = FKTableName;
+    public StringProperty primaryKeyTableNameProperty() {
+        return primaryKeyTableName;
+    }
+
+    public String getForeignKeyTableName() {
+        return foreignKeyTableName.get();
+    }
+
+    public void setForeignKeyTableName(String foreignKeyTableName) {
+        this.foreignKeyTableName.set(foreignKeyTableName);
+    }
+
+    public StringProperty foreignKeyTableNameProperty() {
+        return foreignKeyTableName;
+    }
+
+    public ObservableMap<String, String> getMapForeignKeyToPrimaryKey() {
+        return mapForeignKeyToPrimaryKey;
     }
 }

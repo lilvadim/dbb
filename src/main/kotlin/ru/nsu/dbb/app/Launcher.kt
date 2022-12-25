@@ -2,6 +2,6 @@ package ru.nsu.dbb.app
 
 import javafx.application.Application.launch
 
-fun main() {
-    launch(DbbApplication::class.java)
+fun main(args: Array<String>) {
+    launch(DbbApplication::class.java, *args)
 }

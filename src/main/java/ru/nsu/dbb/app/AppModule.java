@@ -7,6 +7,7 @@ import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
+import ru.nsu.dbb.entity.DatabaseStorage;
 import ru.nsu.dbb.view.MainController;
 
 import java.io.IOException;
@@ -15,6 +16,11 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class AppModule extends AbstractModule {
+    @Override
+    protected void configure() {
+        super.configure();
+        bind(DatabaseStorage.class).in(Singleton.class);
+    }
 
     @Provides
     @Singleton
@@ -31,21 +37,10 @@ public class AppModule extends AbstractModule {
 
     @Provides
     @Named("MainView")
-    URL mainViewFXML() {
-        return MainController.class.getResource("MainView.fxml");
-    }
-
-    @Provides
-    @Named("MainView")
-    FXMLLoader fxmlLoader(ResourceBundle uiProperties, Injector injector, @Named("MainView") URL url) {
+    Stage mainViewStage(Injector injector, ResourceBundle uiProperties) throws IOException {
+        URL url = MainController.class.getResource("MainView.fxml");
         FXMLLoader fxmlLoader = new FXMLLoader(url, uiProperties);
         fxmlLoader.setControllerFactory(injector::getInstance);
-        return fxmlLoader;
-    }
-
-    @Provides
-    @Named("MainView")
-    Stage mainViewStage(@Named("MainView") FXMLLoader loader) throws IOException {
-        return loader.load();
+        return fxmlLoader.load();
     }
 }

@@ -1,5 +1,6 @@
 package ru.nsu.dbb.controller;
 
+import ru.nsu.dbb.entity.ConsoleLog;
 import ru.nsu.dbb.exceptions.QueryNotModifiableException;
 import ru.nsu.dbb.exceptions.UnknownQueryTypeException;
 import ru.nsu.dbb.driver.Driver;
@@ -12,12 +13,15 @@ public class ConsoleController {
     private final Driver driver;
     private final SqlParser sqlParser;
 
-    private DatabaseStorage databaseStorage;
+    private final DatabaseStorage databaseStorage;
 
-    public ConsoleController(Driver driver, SqlParser sqlParser, DatabaseStorage databaseStorage) {
+    private final ConsoleLog consoleLog;
+
+    public ConsoleController(Driver driver, SqlParser sqlParser, DatabaseStorage databaseStorage, ConsoleLog consoleLog) {
         this.driver = driver;
         this.sqlParser = sqlParser;
         this.databaseStorage = databaseStorage;
+        this.consoleLog = consoleLog;
     }
 
     public void runQuery(String query) throws UnknownQueryTypeException, QueryNotModifiableException, SQLException {
@@ -27,7 +31,9 @@ public class ConsoleController {
                 selectQuery(query);
             }
             case MODIFY -> {
-                modifyDataQuery(query);
+                var updateCount = modifyDataQuery(query);
+                consoleLog.addNewLog(query);
+                consoleLog.addNewLog(String.format("%d rows affected", updateCount));
             }
             case DDL -> {
                 ddlQuery(query);
@@ -52,12 +58,12 @@ public class ConsoleController {
 
     }
     // TODO надо понять, куда положить результат и написать эту энтити
-    private void modifyDataQuery(String query) throws SQLException, QueryNotModifiableException {
+    private int modifyDataQuery(String query) throws SQLException, QueryNotModifiableException {
         try (var statement = driver.createStatement()){
             var isNotModifiable = statement.execute(query);
             int count;
             if (!isNotModifiable)
-                count = statement.getUpdateCount();
+                return statement.getUpdateCount();
             else
                 throw new QueryNotModifiableException();
         }
@@ -66,9 +72,5 @@ public class ConsoleController {
     // TODO надо понять, в какую энтити это сложить и как
     private void explainPlanQuery(String query) {
 
-    }
-
-    public void setDatabaseStorage(DatabaseStorage databaseStorage) {
-        this.databaseStorage = databaseStorage;
     }
 }
