@@ -56,7 +56,11 @@ fun explainResultSetToTree(rs: ResultSet, queryName: String = "Select", dialect:
         }
         SQLDialect.SQLITE -> {
             //rs: id, parent, _, detail
-            val root = StringTreeNode(arrayListOf(queryName, "", ""))
+            val smr = HashMap<String, String>()
+            smr["Operation"] = queryName
+            smr["Params"] = ""
+            smr["Raw Desc"] = ""
+            val root = StringTreeNode(smr)
             val hm = HashMap<Int, StringTreeNode>()
             hm[0] = root
             while (rs.next()) {
@@ -64,7 +68,12 @@ fun explainResultSetToTree(rs: ResultSet, queryName: String = "Select", dialect:
                 val parent = rs.getInt(2)
                 val str = rs.getString(4)
                 val pNode = hm[parent]
-                val node = StringTreeNode(explainLiteRegexParser(str), arrayListOf(), pNode)
+                val list = explainLiteRegexParser(str)
+                val sm = HashMap<String, String>()
+                sm["Operation"] = list[0]
+                sm["Params"] = list[1]
+                sm["Raw Desc"] = list[2]
+                val node = StringTreeNode(sm, arrayListOf(), pNode)
                 pNode!!.children.add(node)
                 hm[id] = node
             }
@@ -101,11 +110,11 @@ fun explainLiteRegexParser(str: String): List<String> {
         return arrayListOf("Group By", "", str)
     }
 
-    val regexMerge = "(?i)(MERGE) ([(][\\w\\d]+[)])".toRegex()
+    val regexMerge = "(?i)(MERGE) [(]([\\w\\d]+)[)]".toRegex()
     val mrMerge = regexMerge.find(str)
     if (mrMerge != null) {
         val (_, pMerge) = mrMerge.destructured
-        return arrayListOf("Merge", pMerge.uppercase(Locale.getDefault()), str)
+        return arrayListOf("Merge", pMerge.lowercase(), str)
     }
 
     if (str == "LEFT" || str == "RIGHT") {
