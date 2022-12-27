@@ -34,10 +34,10 @@ class OutputViewController @Inject constructor(
         val treeTableView = TreeTableView(treeItem).apply {
             maxWidth = Double.MAX_VALUE
             columns.addAll(
-                result.columns.keys.map {
+                result.columnNames.mapIndexed { idx, it ->
                     TreeTableColumn<StringTreeNode, String>(it).apply {
                         cellValueFactory = Callback { f ->
-                            SimpleStringProperty(f.value.value.columns[text])
+                            SimpleStringProperty(f.value.value.columnValues[idx])
                         }
                     }
                 }
