@@ -1,5 +1,13 @@
 package ru.nsu.dbb.driver;
 
+import org.apache.commons.io.FileUtils;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -11,18 +19,13 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.ServiceLoader;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-
-import org.apache.commons.io.FileUtils;
-
 public class JdbcDrivers {
 
-    private static class DriverDescription {
+    public static DriverList getDriverList() {
+        return driverList;
+    }
+
+    public static class DriverDescription {
 
         @XmlAttribute
         private String name;
@@ -33,14 +36,17 @@ public class JdbcDrivers {
         @XmlAttribute(name = "url")
         private URL downloadUrl;
 
-    }
+        public String getName() {
+            return name;
+        }
 
-    @XmlRootElement(name = "drivers")
-    private static class DriverList {
+        public String getSubprotocol() {
+            return subprotocol;
+        }
 
-        @XmlElement(name = "driver")
-        private List<DriverDescription> driverDescriptions = new ArrayList<>();
-
+        public URL getDownloadUrl() {
+            return downloadUrl;
+        }
     }
 
     private static final URL driverListUrl = Driver.class.getResource("/ru/nsu/dbb/jdbc-drivers.xml");
@@ -106,4 +112,14 @@ public class JdbcDrivers {
         return null;
     }
 
+    @XmlRootElement(name = "drivers")
+    public static class DriverList {
+
+        @XmlElement(name = "driver")
+        private final List<DriverDescription> driverDescriptions = new ArrayList<>();
+
+        public List<DriverDescription> getDriverDescriptions() {
+            return driverDescriptions;
+        }
+    }
 }

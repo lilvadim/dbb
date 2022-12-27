@@ -1,15 +1,16 @@
 package ru.nsu.dbb.entity;
 
-import java.util.ArrayList;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 public class ConsoleLog {
-    ArrayList<String> logs;
-
-    public ConsoleLog() {
-        logs = new ArrayList<>();
-    }
+    private final ObservableList<String> logs = FXCollections.observableArrayList();
 
     public void addNewLog(String log) {
         logs.add(log);
+    }
+
+    public ObservableList<String> getLogs() {
+        return logs;
     }
 }
