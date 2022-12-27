@@ -5,13 +5,14 @@ import ru.nsu.dbb.entity.explain_plan.Operation
 import ru.nsu.dbb.entity.explain_plan.StringTreeNode
 import ru.nsu.dbb.entity.explain_plan.TreeNode
 import java.sql.ResultSet
-import java.util.*
 import kotlin.collections.HashMap
 
-class ExplainPlanParser {
-}
-
-fun explainResultSetToTree(rs: ResultSet, queryName: String = "Select", dialect: SQLDialect = SQLDialect.SQLITE): StringTreeNode {
+@JvmOverloads
+fun explainResultSetToTree(
+    rs: ResultSet,
+    queryName: String = "Select",
+    dialect: SQLDialect = SQLDialect.SQLITE
+): StringTreeNode {
     when (dialect) {
         SQLDialect.POSTGRE -> {
             val root = TreeNode(

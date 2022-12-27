@@ -5,11 +5,14 @@ import ru.nsu.dbb.entity.ConsoleLog;
 import ru.nsu.dbb.entity.DatabaseStorage;
 import ru.nsu.dbb.exceptions.QueryNotModifiableException;
 import ru.nsu.dbb.exceptions.UnknownQueryTypeException;
+import ru.nsu.dbb.explain_plan.SQLDialect;
 import ru.nsu.dbb.response.ExplainPlanResultPipe;
 import ru.nsu.dbb.sql.SqlParser;
 
 import javax.inject.Inject;
 import java.sql.SQLException;
+
+import static ru.nsu.dbb.explain_plan.ExplainPlanParserKt.explainResultSetToTree;
 
 public class ConsoleController {
     private final Driver driver;
@@ -86,7 +89,10 @@ public class ConsoleController {
     }
 
     // TODO надо понять, в какую энтити это сложить и как
-    private void explainPlanQuery(String query) {
-
+    private void explainPlanQuery(String query) throws SQLException {
+        try (var statement = driver.createStatement()) {
+            var resultSet = statement.executeQuery(query);
+            var root = explainResultSetToTree(resultSet, "Select", SQLDialect.SQLITE);
+        }
     }
 }
