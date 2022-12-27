@@ -4,7 +4,8 @@ data class StringTreeNode(
     /**
      * Mapping column name -> value
      */
-    val columns: Map<String, String>,
+    val columnNames: List<String>,
+    val columnValues: List<String>,
     val children: MutableList<StringTreeNode> = arrayListOf(),
     val parent: StringTreeNode? = null
 )

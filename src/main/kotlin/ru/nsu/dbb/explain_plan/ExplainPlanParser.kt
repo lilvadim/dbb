@@ -57,11 +57,8 @@ fun explainResultSetToTree(
         }
         SQLDialect.SQLITE -> {
             //rs: id, parent, _, detail
-            val smr = HashMap<String, String>()
-            smr["Operation"] = queryName
-            smr["Params"] = ""
-            smr["Raw Desc"] = ""
-            val root = StringTreeNode(smr)
+            val columnNames = arrayListOf("Operation", "Params", "Raw Desc")
+            val root = StringTreeNode(columnNames, arrayListOf(queryName, "", ""))
             val hm = HashMap<Int, StringTreeNode>()
             hm[0] = root
             while (rs.next()) {
@@ -69,12 +66,7 @@ fun explainResultSetToTree(
                 val parent = rs.getInt(2)
                 val str = rs.getString(4)
                 val pNode = hm[parent]
-                val list = explainLiteRegexParser(str)
-                val sm = HashMap<String, String>()
-                sm["Operation"] = list[0]
-                sm["Params"] = list[1]
-                sm["Raw Desc"] = list[2]
-                val node = StringTreeNode(sm, arrayListOf(), pNode)
+                val node = StringTreeNode(columnNames, explainLiteRegexParser(str), arrayListOf(), pNode)
                 pNode!!.children.add(node)
                 hm[id] = node
             }
