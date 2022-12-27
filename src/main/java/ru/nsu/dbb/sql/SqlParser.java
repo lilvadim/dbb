@@ -10,7 +10,7 @@ public class SqlParser {
     private static final String DROP_TABLE_QUERY_TYPE = "DROP TABLE";
     private static final String ALTER_TABLE_QUERY_TYPE = "ALTER TABLE";
 
-    private static final String EXPLAIN_PLAN_QUERY_TYPE = "EXPLAIN PLAN";
+    private static final String EXPLAIN_PLAN_QUERY_TYPE = "EXPLAIN QUERY PLAN";
     public QueryType getTypeOfQuery(String query) {
         if (query.contains(EXPLAIN_PLAN_QUERY_TYPE))
             return QueryType.EXPLAIN_PLAN;

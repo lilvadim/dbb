@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.*?>
 <VBox xmlns:fx="http://javafx.com/fxml"
       xmlns="http://javafx.com/javafx"
-      fx:controller="ru.nsu.dbb.view.OutputViewController" fx:id="root">
-    <HBox alignment="CENTER_LEFT">
-        <HBox HBox.hgrow="ALWAYS" style="-fx-padding: 5;">
-            <Label text="Output" styleClass="ui-label"/>
-        </HBox>
-    </HBox>
-    <VBox fx:id="outputBox"/>
+      fx:controller="ru.nsu.dbb.view.OutputViewController" fx:id="root" maxWidth="Infinity" maxHeight="Infinity">
+    <ScrollPane>
+        <VBox fx:id="outputBox" maxWidth="Infinity" maxHeight="Infinity" />
+    </ScrollPane>
 </VBox>
