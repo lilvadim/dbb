@@ -8,7 +8,7 @@ ext {
     jfxVersion = '19'
 }
 
-tasks.withType(JavaCompile) {
+tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
 }
 
@@ -47,7 +47,7 @@ dependencies {
 
 application {
     // Define the main class for the application.
-    mainClass = 'ru.nsu.LauncherKt'
+    mainClass = 'ru.nsu.dbb.app.LauncherKt'
 }
 
 test {

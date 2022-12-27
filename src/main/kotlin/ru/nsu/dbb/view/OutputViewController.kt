@@ -32,10 +32,15 @@ class OutputViewController @Inject constructor(
     private fun displayExplainResult(result: StringTreeNode) {
         val treeItem = explainPlanOutputToTree.convert(result)
         val treeTableView = TreeTableView(treeItem).apply {
-            maxWidth = Double.MAX_VALUE
+            prefWidth = Double.MAX_VALUE
             columns.addAll(
                 result.columnNames.mapIndexed { idx, it ->
                     TreeTableColumn<StringTreeNode, String>(it).apply {
+                        prefWidth = 200.0
+                        isReorderable = false
+                        isSortable = false
+                        isEditable = false
+                        isResizable = false
                         cellValueFactory = Callback { f ->
                             SimpleStringProperty(f.value.value.columnValues[idx])
                         }
