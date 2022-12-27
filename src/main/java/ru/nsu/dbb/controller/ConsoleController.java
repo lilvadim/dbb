@@ -93,6 +93,7 @@ public class ConsoleController {
         try (var statement = driver.createStatement()) {
             var resultSet = statement.executeQuery(query);
             var root = explainResultSetToTree(resultSet, "Select", SQLDialect.SQLITE);
+            explainPlanResultPipe.pushItem(root);
         }
     }
 }
