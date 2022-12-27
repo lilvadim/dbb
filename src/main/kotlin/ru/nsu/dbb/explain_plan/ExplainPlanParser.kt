@@ -1,5 +1,6 @@
 package ru.nsu.dbb.explain_plan
 
+import com.github.javaparser.utils.Log
 import ru.nsu.dbb.entity.explain_plan.Operation
 import ru.nsu.dbb.entity.explain_plan.TreeNode
 import java.sql.ResultSet
@@ -70,6 +71,73 @@ fun explainPostresTabulationCounter(str: String): Int {
     return cnt
 }
 
+fun explainLiteRegexParser(str: String): List<String> {
+//    var regex = """([.[^a-z]]+)([a-z\s]*)""".toRegex()
+//    var matchResult = regex.find(str)
+
+    val regexOrder = "(?)(ORDER BY)".toRegex()
+    if (regexOrder.containsMatchIn(str)) {
+        return arrayListOf("Order By", "", str)
+    }
+
+    val regexGroup = "(?)(GROUP BY)".toRegex()
+    if (regexGroup.containsMatchIn(str)) {
+        return arrayListOf("Group By", "", str)
+    }
+
+    if (str == "LEFT" || str == "RIGHT") {
+        return arrayListOf(str, "", str)
+    }
+
+    val regexFilter1 = "(?i)(FILTER ON) ([\\w\\d]+\\s[(].+[)])".toRegex()
+    val mrFilter1 = regexFilter1.find(str)
+
+    val regexFilter2 = "(?i)(FILTER ON) ([\\w\\d]+)".toRegex()
+    val mrFilter2 = regexFilter2.find(str)
+
+    val mrFilter = mrFilter1 ?: mrFilter2
+
+    if (mrFilter != null) {
+        val (_, pFilter) = mrFilter.destructured
+        return arrayListOf("Filter on", pFilter, str)
+    }
+
+    val regexScan = "(?i)(SCAN) ([\\w\\d]+)".toRegex()
+    val mrScan = regexScan.find(str)
+
+    if (mrScan != null) {
+        val (_, pScan) = mrScan.destructured
+        return arrayListOf("Full Scan", "table: $pScan", str)
+    }
+
+    var params = ""
+
+    val regexIndex1 = "(?i)(INDEX) ([\\w\\d]+\\s[(].+[)])".toRegex()
+    val mrIndex1 = regexIndex1.find(str)
+
+    val regexIndex2 = "(?i)(INDEX) ([\\w\\d]+)".toRegex()
+    val mrIndex2 = regexIndex2.find(str)
+
+    val mrIndex = mrIndex1 ?: mrIndex2
+
+    if (mrIndex != null) {
+        val (_, pIndex) = mrIndex.destructured
+        params += "$pIndex; "
+    }
+
+    val regexSearch = "(?i)(SEARCH) ([\\w\\d]+)".toRegex()
+    val mrSearch = regexSearch.find(str)
+
+    if (mrSearch != null) {
+        val (_, pSearch) = mrSearch.destructured
+        params += "$pSearch ;"
+        return arrayListOf("Index Scan", params, str)
+    }
+
+    Log.error("explainLiteRegexParser")
+    return arrayListOf("Undefined", "", "")
+}
+
 fun explainPostresRegexParser(str: String): List<String> {
     var regex = """\s*(.+)\s{2}[(]cost=(\d+[.]\d+)[.]{2}(\d+[.]\d+) rows=(\d+) width=(\d+)[)].*""".toRegex()
     var matchResult = regex.find(str)
@@ -89,11 +157,15 @@ fun explainPostresRegexParser(str: String): List<String> {
     } else {
         regex = """\s*(\w[\w\s]*): (.*)""".toRegex()
         matchResult = regex.find(str)
-        val (rd1, rd2) = matchResult!!.destructured
-        val clrStr = "$rd1 = $rd2"
-        println(clrStr)
-        return arrayListOf(clrStr)
+        if (matchResult != null) {
+            val (rd1, rd2) = matchResult.destructured
+            val clrStr = "$rd1 = $rd2"
+            println(clrStr)
+            return arrayListOf(clrStr)
+        }
     }
+    Log.error("explainPostresRegexParser")
+    return arrayListOf("")
 }
 
 enum class SQLDialect {
