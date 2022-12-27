@@ -39,12 +39,13 @@ class ExplainPlanParserTest {
         val statement = driver.createStatement()
         val resultSet = statement.executeQuery(sqliteQuery2)
 
-        while (resultSet.next()) {
-            val str = resultSet.getString(4)
-            println(str)
-            explainLiteRegexParser(str)
-            println()
-        }
+//        while (resultSet.next()) {
+//            val str = resultSet.getString(4)
+//            println(str)
+//            println(explainLiteRegexParser(str))
+//            println()
+//        }
+        val root = explainResultSetToTree(resultSet, "Select", SQLDialect.SQLITE)
         //val root = explainResultSetToTree(rs = resultSet, queryName = "Select", dialect = SQLDialect.POSTGRE)
         println()
     }

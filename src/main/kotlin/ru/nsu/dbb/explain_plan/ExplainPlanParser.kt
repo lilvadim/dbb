@@ -2,26 +2,29 @@ package ru.nsu.dbb.explain_plan
 
 import com.github.javaparser.utils.Log
 import ru.nsu.dbb.entity.explain_plan.Operation
+import ru.nsu.dbb.entity.explain_plan.StringTreeNode
 import ru.nsu.dbb.entity.explain_plan.TreeNode
 import java.sql.ResultSet
+import java.util.*
+import kotlin.collections.HashMap
 
 class ExplainPlanParser {
 }
 
-fun explainResultSetToTree(rs: ResultSet, queryName: String = "Select", dialect: SQLDialect): TreeNode {
-    val root = TreeNode(
-        Operation(
-            name = queryName, params = "", rows = null, startupCost = null, totalCost = null, desc = ""
-        ), mutableListOf(), null
-    )
+fun explainResultSetToTree(rs: ResultSet, queryName: String = "Select", dialect: SQLDialect = SQLDialect.SQLITE): StringTreeNode {
     when (dialect) {
         SQLDialect.POSTGRE -> {
+            val root = TreeNode(
+                Operation(
+                    name = queryName, params = "", rows = null, startupCost = null, totalCost = null, desc = ""
+                ), mutableListOf(), null
+            )
             val hm = HashMap<Int, TreeNode>()
             var subRoot = root
             hm[-1] = subRoot
             while (rs.next()) {
                 val str = rs.getString(1)
-                val spacesCnt = explainPostresTabulationCounter(str)
+                val spacesCnt = explainPostgresTabulationCounter(str)
                 val result = explainPostresRegexParser(str)
                 if (result.size == 6) {
                     val operation = Operation(
@@ -52,14 +55,27 @@ fun explainResultSetToTree(rs: ResultSet, queryName: String = "Select", dialect:
 
         }
         SQLDialect.SQLITE -> {
-
+            //rs: id, parent, _, detail
+            val root = StringTreeNode(arrayListOf(queryName, "", ""))
+            val hm = HashMap<Int, StringTreeNode>()
+            hm[0] = root
+            while (rs.next()) {
+                val id = rs.getInt(1)
+                val parent = rs.getInt(2)
+                val str = rs.getString(4)
+                val pNode = hm[parent]
+                val node = StringTreeNode(explainLiteRegexParser(str), arrayListOf(), pNode)
+                pNode!!.children.add(node)
+                hm[id] = node
+            }
+            return root
         }
     }
 
-    return root
+    throw RuntimeException("Error")
 }
 
-fun explainPostresTabulationCounter(str: String): Int {
+fun explainPostgresTabulationCounter(str: String): Int {
     var cnt = 0
     for (ch in str) {
         if (ch == ' ') {
@@ -75,14 +91,21 @@ fun explainLiteRegexParser(str: String): List<String> {
 //    var regex = """([.[^a-z]]+)([a-z\s]*)""".toRegex()
 //    var matchResult = regex.find(str)
 
-    val regexOrder = "(?)(ORDER BY)".toRegex()
+    val regexOrder = "(?i)(ORDER BY)".toRegex()
     if (regexOrder.containsMatchIn(str)) {
         return arrayListOf("Order By", "", str)
     }
 
-    val regexGroup = "(?)(GROUP BY)".toRegex()
+    val regexGroup = "(?i)(GROUP BY)".toRegex()
     if (regexGroup.containsMatchIn(str)) {
         return arrayListOf("Group By", "", str)
+    }
+
+    val regexMerge = "(?i)(MERGE) ([(][\\w\\d]+[)])".toRegex()
+    val mrMerge = regexMerge.find(str)
+    if (mrMerge != null) {
+        val (_, pMerge) = mrMerge.destructured
+        return arrayListOf("Merge", pMerge.uppercase(Locale.getDefault()), str)
     }
 
     if (str == "LEFT" || str == "RIGHT") {
