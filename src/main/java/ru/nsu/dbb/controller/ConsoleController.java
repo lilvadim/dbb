@@ -1,12 +1,13 @@
 package ru.nsu.dbb.controller;
 
+import ru.nsu.dbb.driver.Driver;
 import ru.nsu.dbb.entity.ConsoleLog;
+import ru.nsu.dbb.entity.DatabaseStorage;
 import ru.nsu.dbb.exceptions.QueryNotModifiableException;
 import ru.nsu.dbb.exceptions.UnknownQueryTypeException;
-import ru.nsu.dbb.driver.Driver;
-import ru.nsu.dbb.entity.DatabaseStorage;
 import ru.nsu.dbb.sql.SqlParser;
 
+import javax.inject.Inject;
 import java.sql.SQLException;
 
 public class ConsoleController {
@@ -17,6 +18,7 @@ public class ConsoleController {
 
     private final ConsoleLog consoleLog;
 
+    @Inject
     public ConsoleController(Driver driver, SqlParser sqlParser, DatabaseStorage databaseStorage, ConsoleLog consoleLog) {
         this.driver = driver;
         this.sqlParser = sqlParser;
@@ -29,6 +31,7 @@ public class ConsoleController {
         switch (queryType) {
             case SELECT -> {
                 selectQuery(query);
+                consoleLog.addNewLog(query);
             }
             case MODIFY -> {
                 var updateCount = modifyDataQuery(query);

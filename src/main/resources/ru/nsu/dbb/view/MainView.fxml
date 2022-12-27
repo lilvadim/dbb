@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?language groovy?>
 
-<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.Scene?>
 <?import javafx.stage.Stage?>
 <Stage xmlns:fx="http://javafx.com/fxml"
        xmlns="http://javafx.com/javafx"
-       title="dbb" fx:controller="ru.nsu.dbb.view.MainController"
-       fx:id="_stage">
+       title="dbb" fx:controller="ru.nsu.dbb.view.MainController">
     <fx:script>
         controller.fxScriptInit = {
             // init
@@ -16,12 +15,19 @@
     </fx:script>
     <scene>
         <Scene stylesheets="@common.css">
-            <VBox maxHeight="Infinity" maxWidth="Infinity">
+            <VBox maxHeight="Infinity" maxWidth="Infinity" fx:id="root">
                 <SplitPane maxHeight="Infinity" maxWidth="Infinity" VBox.vgrow="ALWAYS">
                     <fx:include source="DatabaseExplorer.fxml" VBox.vgrow="ALWAYS"/>
                     <SplitPane orientation="VERTICAL" VBox.vgrow="ALWAYS">
                         <fx:include source="QueryConsoleView.fxml" VBox.vgrow="ALWAYS"/>
-                        <fx:include source="OutputView.fxml" VBox.vgrow="ALWAYS"/>
+                        <TabPane>
+                            <Tab text="Output" closable="false">
+                                <fx:include source="OutputView.fxml" VBox.vgrow="ALWAYS"/>
+                            </Tab>
+                            <Tab text="Console Log" closable="false">
+                                <fx:include source="ConsoleLogView.fxml" VBox.vgrow="ALWAYS"/>
+                            </Tab>
+                        </TabPane>
                     </SplitPane>
                 </SplitPane>
             </VBox>

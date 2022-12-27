@@ -7,7 +7,11 @@ import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
+import ru.nsu.dbb.driver.Driver;
+import ru.nsu.dbb.driver.JdbcDrivers;
+import ru.nsu.dbb.entity.ConsoleLog;
 import ru.nsu.dbb.entity.DatabaseStorage;
+import ru.nsu.dbb.view.AlertFactory;
 import ru.nsu.dbb.view.MainController;
 
 import java.io.IOException;
@@ -20,6 +24,9 @@ public class AppModule extends AbstractModule {
     protected void configure() {
         super.configure();
         bind(DatabaseStorage.class).in(Singleton.class);
+        bind(ConsoleLog.class).in(Singleton.class);
+        bind(AlertFactory.class).in(Singleton.class);
+        bind(Driver.class).in(Singleton.class);
     }
 
     @Provides
@@ -42,5 +49,11 @@ public class AppModule extends AbstractModule {
         FXMLLoader fxmlLoader = new FXMLLoader(url, uiProperties);
         fxmlLoader.setControllerFactory(injector::getInstance);
         return fxmlLoader.load();
+    }
+
+    @Provides
+    @Singleton
+    JdbcDrivers.DriverList driverList() {
+        return JdbcDrivers.getDriverList();
     }
 }
