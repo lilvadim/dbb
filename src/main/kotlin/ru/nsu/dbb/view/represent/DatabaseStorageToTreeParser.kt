@@ -1,8 +1,9 @@
-package ru.nsu.dbb.view
+package ru.nsu.dbb.view.represent
 
 import javafx.scene.control.TreeItem
 import ru.nsu.dbb.entity.DatabaseStorage
 
+// TODO разбить на отдельные функции и сложить в маппинг TreeItem -> Object
 class DatabaseStorageToTreeParser {
     fun parse(databaseStorage: DatabaseStorage): TreeItem<String> {
         val storage = databaseStorage.storage

@@ -6,6 +6,7 @@ import javafx.scene.control.TreeView
 import javafx.scene.layout.VBox
 import ru.nsu.dbb.controller.DatabaseConnectivityController
 import ru.nsu.dbb.entity.DatabaseStorage
+import ru.nsu.dbb.view.represent.DatabaseStorageToTreeParser
 import ru.nucodelabs.kfx.core.AbstractViewController
 import java.net.URL
 import java.util.*
