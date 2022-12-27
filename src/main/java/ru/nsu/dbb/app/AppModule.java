@@ -8,6 +8,7 @@ import com.google.inject.name.Named;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
 import ru.nsu.dbb.driver.Driver;
+import ru.nsu.dbb.driver.JdbcDrivers;
 import ru.nsu.dbb.entity.ConsoleLog;
 import ru.nsu.dbb.entity.DatabaseStorage;
 import ru.nsu.dbb.view.AlertFactory;
@@ -48,5 +49,11 @@ public class AppModule extends AbstractModule {
         FXMLLoader fxmlLoader = new FXMLLoader(url, uiProperties);
         fxmlLoader.setControllerFactory(injector::getInstance);
         return fxmlLoader.load();
+    }
+
+    @Provides
+    @Singleton
+    JdbcDrivers.DriverList driverList() {
+        return JdbcDrivers.getDriverList();
     }
 }

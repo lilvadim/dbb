@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.VBox?>
 <VBox xmlns:fx="http://javafx.com/fxml"
       xmlns="http://javafx.com/javafx"
       fx:controller="ru.nsu.dbb.view.ConsoleLogViewController" fx:id="root">
-    <VBox fx:id="container"/>
+    <ScrollPane>
+        <VBox fx:id="container" style="-fx-padding: 5;" spacing="3"/>
+    </ScrollPane>
 </VBox>

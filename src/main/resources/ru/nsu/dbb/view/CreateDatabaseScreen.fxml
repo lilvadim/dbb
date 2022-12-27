@@ -19,6 +19,8 @@
                     <HBox HBox.hgrow="ALWAYS"/>
                     <Button text="Choose" onAction="#chooseFile"/>
                 </HBox>
+                <Label text="Manually enter URL"/>
+                <TextField promptText="URL" fx:id="manualUrl"/>
                 <Button fx:id="createButton" text="Add" onAction="#create" defaultButton="true" disable="true"/>
             </VBox>
         </Scene>
