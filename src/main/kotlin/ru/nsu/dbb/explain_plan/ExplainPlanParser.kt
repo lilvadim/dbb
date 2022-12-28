@@ -15,12 +15,17 @@ fun explainResultSetToTree(
 ): StringTreeNode {
     when (dialect) {
         SQLDialect.POSTGRE -> {
-            val root = TreeNode(
-                Operation(
-                    name = queryName, params = "", rows = null, startupCost = null, totalCost = null, desc = ""
-                ), mutableListOf(), null
+//            val root = TreeNode(
+//                Operation(
+//                    name = queryName, params = "", rows = null, startupCost = null, totalCost = null, desc = ""
+//                ), mutableListOf(), null
+//            )
+            val columnNames = arrayListOf("Operation", "Params", "Rows", "Startup Cost", "Total Cost", "Raw Desc")
+            val root = StringTreeNode(
+                columnNames,
+                arrayListOf(queryName, "", "", "", "", "")
             )
-            val hm = HashMap<Int, TreeNode>()
+            val hm = HashMap<Int, StringTreeNode>()
             var subRoot = root
             hm[-1] = subRoot
             while (rs.next()) {
@@ -28,29 +33,30 @@ fun explainResultSetToTree(
                 val spacesCnt = explainPostgresTabulationCounter(str)
                 val result = explainPostresRegexParser(str)
                 if (result.size == 6) {
-                    val operation = Operation(
+                    val list = arrayListOf(
                         result[0],
                         result[1],
-                        result[2].toIntOrNull(),
-                        result[3].toDoubleOrNull(),
-                        result[4].toDoubleOrNull(),
+                        result[2],
+                        result[3],
+                        result[4],
                         result[5]
                     )
                     if (hm.containsKey(spacesCnt)) {
-                        val node = TreeNode(operation, arrayListOf(), hm[spacesCnt]!!.parent)
-                        hm[spacesCnt]!!.childNodes.lastOrNull()?.parent = node
-                        hm[spacesCnt]!!.parent?.childNodes?.add(node)
+                        val node = StringTreeNode(columnNames, list, arrayListOf(), hm[spacesCnt]!!.parent)
+                        hm[spacesCnt]!!.children.lastOrNull()?.parent = node
+                        hm[spacesCnt]!!.parent?.children?.add(node)
                         hm[spacesCnt] = node
                     } else {
-                        val node = TreeNode(operation, mutableListOf(), subRoot)
+                        val node = StringTreeNode(columnNames, list, mutableListOf(), subRoot)
                         hm[spacesCnt] = node
-                        hm[spacesCnt]!!.parent!!.childNodes.add(node)
+                        hm[spacesCnt]!!.parent!!.children.add(node)
                     }
                     subRoot = hm[spacesCnt]!!
                 } else { //additional info to node
-                    subRoot.operation.desc = result[0] + "; " + subRoot.operation.desc
+                    subRoot.columnValues[5] = result[0] + "; " + subRoot.columnValues[5]
                 }
             }
+            return root
         }
         SQLDialect.MYSQL -> {
 
@@ -89,7 +95,7 @@ fun explainPostgresTabulationCounter(str: String): Int {
     return cnt
 }
 
-fun explainLiteRegexParser(str: String): List<String> {
+fun explainLiteRegexParser(str: String): MutableList<String> {
 //    var regex = """([.[^a-z]]+)([a-z\s]*)""".toRegex()
 //    var matchResult = regex.find(str)
 

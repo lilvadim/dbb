@@ -34,10 +34,10 @@ class ExplainPlanParserTest {
 
         val driver = Driver()
         //driver.openConnection("jdbc:mysql://localhost:3306/myDB", "mysql", "123")
-        //driver.openConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "123")
-        driver.openConnection("jdbc:sqlite:src/test/resources/chinook.db", "", "")
+        driver.openConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "123")
+        //driver.openConnection("jdbc:sqlite:src/test/resources/chinook.db", "", "")
         val statement = driver.createStatement()
-        val resultSet = statement.executeQuery(sqliteQuery2)
+        val resultSet = statement.executeQuery(postgresQuery1)
 
 //        while (resultSet.next()) {
 //            val str = resultSet.getString(4)
@@ -45,8 +45,8 @@ class ExplainPlanParserTest {
 //            println(explainLiteRegexParser(str))
 //            println()
 //        }
-        val root = explainResultSetToTree(resultSet, "Select", SQLDialect.SQLITE)
-        //val root = explainResultSetToTree(rs = resultSet, queryName = "Select", dialect = SQLDialect.POSTGRE)
+        //val root = explainResultSetToTree(resultSet, "Select", SQLDialect.SQLITE)
+        val root = explainResultSetToTree(rs = resultSet, queryName = "Select", dialect = SQLDialect.POSTGRE)
         println()
     }
 }

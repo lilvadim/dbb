@@ -92,7 +92,7 @@ public class ConsoleController {
     private void explainPlanQuery(String query) throws SQLException {
         try (var statement = driver.createStatement()) {
             var resultSet = statement.executeQuery(query);
-            var root = explainResultSetToTree(resultSet, "Select", SQLDialect.SQLITE);
+            var root = explainResultSetToTree(resultSet, "Select", SQLDialect.POSTGRE);
             explainPlanResultPipe.pushItem(root);
         }
     }
