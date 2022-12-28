@@ -75,6 +75,7 @@ class CreateDatabaseScreenController @Inject constructor(
                     "",
                     ""
                 )
+                stage!!.hide()
             } catch (e: Exception) {
                 alertFactory.simpleExceptionAlert(e, stage).show()
             }
