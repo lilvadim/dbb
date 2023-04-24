@@ -1,6 +1,7 @@
 package ru.nsu.dbb.constructor;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class QueryConstructor {
     private static final String addColumnStatementTemplate = "ALTER TABLE %s ADD COLUMN %s %s %s";
@@ -13,8 +14,8 @@ public class QueryConstructor {
 
     private static final String dropIndexStatementTemplate = "DROP INDEX %s";
 
-    // todo сделать для других бд, так как sqlite не поддерживает изменение типа колонки
-    private static final String changeColumnDataTypeTemplate = "";
+    private List<String> tableStructure;
+
 
     public String createAddColumnStatement(String tableName, String columnName, String type, boolean notNull) {
         return String.format(
@@ -61,5 +62,82 @@ public class QueryConstructor {
                 dropIndexStatementTemplate,
                 indexName
         );
+    }
+
+    public String createTableStatememt(String tableName) {
+        tableStructure = new ArrayList<>();
+        tableStructure.add("CREATE TABLE (");
+        tableStructure.add(");");
+        return getResultString();
+    }
+
+    public String addColumnToCreateTable(String columnName, String columnType) {
+        tableStructure.add(
+                tableStructure.size() - 1,
+                String.format("%s %s",
+                        columnName,
+                        columnType
+                )
+        );
+        return getResultString();
+    }
+
+    public String addPrimaryKeyToCreateTable(String constraintName, List<String> columnsInPrimaryKey) {
+        StringBuilder result = new StringBuilder();
+        result.append(
+                String.format("CONSTRAINT %s PRIMARY KEY (", constraintName));
+        for (int i = 0; i < columnsInPrimaryKey.size(); i++) {
+            if (i != columnsInPrimaryKey.size() - 1) {
+                result.append(columnsInPrimaryKey.get(i)).append(",");
+            } else {
+                result.append(columnsInPrimaryKey.get(i));
+            }
+        }
+        result.append(")");
+        tableStructure.add(
+                tableStructure.size() - 1,
+                result.toString()
+      );
+        return getResultString();
+    }
+
+    public String addForeignKeyToCreateTable(String constraintName,
+                                             String targetTable,
+                                             List<String> columnsInForeignKey,
+                                             List<String> columnsInOtherTable) {
+        StringBuilder result = new StringBuilder();
+        result.append(
+                String.format("CONSTRAINT %s FOREIGN KEY (", constraintName)
+        );
+        for (int i = 0; i < columnsInForeignKey.size(); i++) {
+            if (i != columnsInForeignKey.size() - 1) {
+                result.append(columnsInForeignKey.get(i)).append(",");
+            } else {
+                result.append(columnsInForeignKey.get(i));
+            }
+        }
+        result.append(
+                String.format(")\nREFERENCES %s (", targetTable)
+        );
+        for (int i = 0; i < columnsInOtherTable.size(); i++) {
+            if (i != columnsInOtherTable.size() - 1) {
+                result.append(columnsInOtherTable.get(i)).append(",");
+            } else {
+                result.append(columnsInOtherTable.get(i));
+            }
+        }
+        result.append(")");
+        tableStructure.add(
+                tableStructure.size() - 1,
+                result.toString()
+        );
+        return getResultString();
+    }
+    private String getResultString() {
+        StringBuilder result = new StringBuilder();
+        for (String part:tableStructure) {
+            result.append(part).append("\n");
+        }
+        return result.toString();
     }
 }
