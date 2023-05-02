@@ -11,6 +11,7 @@ import ru.nsu.dbb.driver.Driver;
 import ru.nsu.dbb.driver.JdbcDrivers;
 import ru.nsu.dbb.entity.ConsoleLog;
 import ru.nsu.dbb.entity.DatabaseStorage;
+import ru.nsu.dbb.response.ExplainPlanResultPipe;
 import ru.nsu.dbb.view.AlertFactory;
 import ru.nsu.dbb.view.MainController;
 
@@ -27,6 +28,7 @@ public class AppModule extends AbstractModule {
         bind(ConsoleLog.class).in(Singleton.class);
         bind(AlertFactory.class).in(Singleton.class);
         bind(Driver.class).in(Singleton.class);
+        bind(ExplainPlanResultPipe.class).in(Singleton.class);
     }
 
     @Provides

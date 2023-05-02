@@ -8,7 +8,7 @@ ext {
     jfxVersion = '19'
 }
 
-tasks.withType(JavaCompile) {
+tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
 }
 
@@ -42,11 +42,12 @@ dependencies {
     testImplementation "org.openjfx:javafx:${jfxVersion}"
     testImplementation 'org.assertj:assertj-core:3.23.1'
 //    testImplementation files('/Users/vaceslavhaverko/Downloads/sqlite-jdbc-3.40.0.0.jar')
+//    implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.31'
 }
 
 application {
     // Define the main class for the application.
-    mainClass = 'ru.nsu.LauncherKt'
+    mainClass = 'ru.nsu.dbb.app.LauncherKt'
 }
 
 test {
