@@ -178,3 +178,4 @@ $RECYCLE.BIN/
 # End of https://www.toptal.com/developers/gitignore/api/macos,osx,windows,linux
 # Ignore Gradle build output directory
 build
+!/lombok.config
