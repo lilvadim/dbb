@@ -2,7 +2,7 @@ package ru.nsu.dbb.controller;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import ru.nsu.dbb.config.driver.Driver;
+import ru.nsu.dbb.driver.Driver;
 import ru.nsu.dbb.entity.ConsoleLog;
 import ru.nsu.dbb.entity.DatabaseStorage;
 import ru.nsu.dbb.exceptions.QueryNotModifiableException;

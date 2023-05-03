@@ -14,7 +14,7 @@ import java.util.*
 import javax.inject.Inject
 
 class DatabaseExplorerViewController @Inject constructor(
-    private val parser: ExplorerMapper,
+    private val mapper: ExplorerMapper,
     private val databaseConnectivityController: DatabaseConnectivityController
 ) : AbstractViewController<VBox>() {
 
@@ -26,12 +26,17 @@ class DatabaseExplorerViewController @Inject constructor(
     override fun initialize(location: URL, resources: ResourceBundle) {
         super.initialize(location, resources)
         databaseStorage.storage.addListener(MapChangeListener {
-            treeView.root = parser.mapToTreeView(databaseStorage)
+            updateView()
         })
     }
 
     @FXML
     private fun refreshAll() {
         databaseStorage.storage.keys.forEach { databaseConnectivityController.refreshDatabase(it) }
+        updateView()
+    }
+
+    private fun updateView() {
+        treeView.root = mapper.mapToTreeView(databaseStorage)
     }
 }
