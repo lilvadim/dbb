@@ -6,7 +6,8 @@ import javafx.scene.control.TreeView
 import javafx.scene.layout.VBox
 import ru.nsu.dbb.controller.DatabaseConnectivityController
 import ru.nsu.dbb.entity.DatabaseStorage
-import ru.nsu.dbb.view.represent.DatabaseStorageToTreeParser
+import ru.nsu.dbb.view.represent.ExplorerItem
+import ru.nsu.dbb.view.represent.mapper.ExplorerMapper
 import ru.nucodelabs.kfx.core.AbstractViewController
 import java.net.URL
 import java.util.*
@@ -14,16 +15,16 @@ import javax.inject.Inject
 
 class DatabaseExplorerViewController @Inject constructor(
     private val databaseStorage: DatabaseStorage,
-    private val parser: DatabaseStorageToTreeParser,
+    private val parser: ExplorerMapper,
     private val databaseConnectivityController: DatabaseConnectivityController
 ) : AbstractViewController<VBox>() {
     @FXML
-    private lateinit var treeView: TreeView<String>
+    private lateinit var treeView: TreeView<ExplorerItem>
 
     override fun initialize(location: URL, resources: ResourceBundle) {
         super.initialize(location, resources)
         databaseStorage.storage.addListener(MapChangeListener {
-            treeView.root = parser.parse(databaseStorage)
+            treeView.root = parser.mapToTreeView(databaseStorage)
         })
     }
 

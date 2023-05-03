@@ -3,6 +3,7 @@ package ru.nsu.dbb.app
 import com.google.inject.Key
 import com.google.inject.name.Names
 import javafx.stage.Stage
+import ru.nsu.dbb.config.AppModule
 import ru.nucodelabs.kfx.core.GuiceApplication
 
 class DbbApplication : GuiceApplication(AppModule()) {

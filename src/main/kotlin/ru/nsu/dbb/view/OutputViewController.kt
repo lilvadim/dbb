@@ -8,7 +8,7 @@ import javafx.scene.layout.VBox
 import javafx.util.Callback
 import ru.nsu.dbb.entity.explain_plan.StringTreeNode
 import ru.nsu.dbb.response.ExplainPlanResultPipe
-import ru.nsu.dbb.view.represent.ExplainPlanOutputToTree
+import ru.nsu.dbb.view.represent.mapper.ExplainPlanResponseMapper
 import ru.nucodelabs.kfx.core.AbstractViewController
 import java.net.URL
 import java.util.*
@@ -16,7 +16,7 @@ import javax.inject.Inject
 
 class OutputViewController @Inject constructor(
     private val explainPlanResultPipe: ExplainPlanResultPipe,
-    private val explainPlanOutputToTree: ExplainPlanOutputToTree
+    private val explainPlanResponseMapper: ExplainPlanResponseMapper
 ) : AbstractViewController<VBox>() {
 
     @FXML
@@ -30,7 +30,7 @@ class OutputViewController @Inject constructor(
     }
 
     private fun displayExplainResult(result: StringTreeNode) {
-        val treeItem = explainPlanOutputToTree.convert(result)
+        val treeItem = explainPlanResponseMapper.mapToTeeView(result)
         val treeTableView = TreeTableView(treeItem).apply {
             maxWidth = Double.MAX_VALUE
             columns.addAll(

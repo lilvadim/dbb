@@ -1,4 +1,4 @@
-package ru.nsu.dbb.app;
+package ru.nsu.dbb.config;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Injector;
