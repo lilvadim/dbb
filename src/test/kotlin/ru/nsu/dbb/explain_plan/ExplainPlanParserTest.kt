@@ -1,7 +1,7 @@
 package ru.nsu.dbb.explain_plan
 
 import org.junit.jupiter.api.Test
-import ru.nsu.dbb.driver.Driver
+import ru.nsu.dbb.config.driver.Driver
 
 class ExplainPlanParserTest {
 

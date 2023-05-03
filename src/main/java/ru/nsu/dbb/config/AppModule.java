@@ -1,4 +1,4 @@
-package ru.nsu.dbb.app;
+package ru.nsu.dbb.config;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Injector;
@@ -7,8 +7,10 @@ import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
-import ru.nsu.dbb.driver.Driver;
-import ru.nsu.dbb.driver.JdbcDrivers;
+import ru.nsu.dbb.config.driver.Driver;
+import ru.nsu.dbb.config.driver.JdbcDrivers;
+import ru.nsu.dbb.controller.ConsoleController;
+import ru.nsu.dbb.controller.DatabaseConnectivityController;
 import ru.nsu.dbb.entity.ConsoleLog;
 import ru.nsu.dbb.entity.DatabaseStorage;
 import ru.nsu.dbb.response.ExplainPlanResultPipe;
@@ -29,6 +31,8 @@ public class AppModule extends AbstractModule {
         bind(AlertFactory.class).in(Singleton.class);
         bind(Driver.class).in(Singleton.class);
         bind(ExplainPlanResultPipe.class).in(Singleton.class);
+        bind(DatabaseConnectivityController.class).in(Singleton.class);
+        bind(ConsoleController.class).in(Singleton.class);
     }
 
     @Provides

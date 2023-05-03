@@ -4,6 +4,7 @@ import javafx.collections.ListChangeListener
 import javafx.fxml.FXML
 import javafx.scene.control.Label
 import javafx.scene.layout.VBox
+import ru.nsu.dbb.controller.ConsoleController
 import ru.nsu.dbb.entity.ConsoleLog
 import ru.nucodelabs.kfx.core.AbstractViewController
 import java.net.URL
@@ -11,8 +12,10 @@ import java.util.*
 import javax.inject.Inject
 
 class ConsoleLogViewController @Inject constructor(
-    private val consoleLog: ConsoleLog
+    consoleController: ConsoleController
 ) : AbstractViewController<VBox>() {
+
+    private val consoleLog: ConsoleLog = consoleController.consoleLog
 
     override fun initialize(location: URL, resources: ResourceBundle) {
         super.initialize(location, resources)

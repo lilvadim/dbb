@@ -1,6 +1,8 @@
 package ru.nsu.dbb.controller;
 
-import ru.nsu.dbb.driver.Driver;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import ru.nsu.dbb.config.driver.Driver;
 import ru.nsu.dbb.entity.ConsoleLog;
 import ru.nsu.dbb.entity.DatabaseStorage;
 import ru.nsu.dbb.exceptions.QueryNotModifiableException;
@@ -14,6 +16,8 @@ import java.sql.SQLException;
 
 import static ru.nsu.dbb.explain_plan.ExplainPlanParserKt.explainResultSetToTree;
 
+@RequiredArgsConstructor(onConstructor_ = {@Inject})
+@Getter
 public class ConsoleController {
     private final Driver driver;
     private final SqlParser sqlParser;
@@ -22,21 +26,6 @@ public class ConsoleController {
 
     private final ConsoleLog consoleLog;
     private final ExplainPlanResultPipe explainPlanResultPipe;
-
-    @Inject
-    public ConsoleController(
-            Driver driver,
-            SqlParser sqlParser,
-            DatabaseStorage databaseStorage,
-            ConsoleLog consoleLog,
-            ExplainPlanResultPipe explainPlanResultPipe
-    ) {
-        this.driver = driver;
-        this.sqlParser = sqlParser;
-        this.databaseStorage = databaseStorage;
-        this.consoleLog = consoleLog;
-        this.explainPlanResultPipe = explainPlanResultPipe;
-    }
 
     public void runQuery(String query) throws UnknownQueryTypeException, QueryNotModifiableException, SQLException {
         var queryType = sqlParser.getTypeOfQuery(query);
