@@ -22,9 +22,11 @@ import javax.inject.Inject
 
 class CreateDatabaseScreenController @Inject constructor(
     private val databaseConnectivityController: DatabaseConnectivityController,
-    private val databaseStorage: DatabaseStorage,
     private val alertFactory: AlertFactory
 ) : AbstractViewController<VBox>() {
+
+    private val databaseStorage: DatabaseStorage = databaseConnectivityController.databaseStorage
+
     @FXML
     private lateinit var manualUrl: TextField
 

@@ -1,8 +1,11 @@
-package ru.nsu.dbb.driver;
+package ru.nsu.dbb.config.driver;
 
 import ru.nsu.dbb.entity.*;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DatabaseMetaData;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Properties;
 

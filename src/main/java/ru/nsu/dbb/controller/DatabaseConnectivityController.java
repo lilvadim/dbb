@@ -1,22 +1,20 @@
 package ru.nsu.dbb.controller;
 
-import ru.nsu.dbb.driver.Driver;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import ru.nsu.dbb.config.driver.Driver;
 import ru.nsu.dbb.entity.Database;
 import ru.nsu.dbb.entity.DatabaseStorage;
 
 import javax.inject.Inject;
 import java.sql.SQLException;
 
+@RequiredArgsConstructor(onConstructor_ = {@Inject})
+@Getter
 public class DatabaseConnectivityController {
     private final Driver driver;
 
     private final DatabaseStorage databaseStorage;
-
-    @Inject
-    public DatabaseConnectivityController(Driver driver, DatabaseStorage databaseStorage) {
-        this.driver = driver;
-        this.databaseStorage = databaseStorage;
-    }
 
     public void createDatabase(String databaseName, String url, String user, String password) throws SQLException {
         driver.openConnection(url, user, password);

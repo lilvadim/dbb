@@ -1,4 +1,4 @@
-package ru.nsu.dbb.driver;
+package ru.nsu.dbb.config.driver;
 
 import org.apache.commons.io.FileUtils;
 

@@ -6,6 +6,7 @@ import javafx.scene.control.TreeTableColumn
 import javafx.scene.control.TreeTableView
 import javafx.scene.layout.VBox
 import javafx.util.Callback
+import ru.nsu.dbb.controller.ConsoleController
 import ru.nsu.dbb.entity.explain_plan.StringTreeNode
 import ru.nsu.dbb.response.ExplainPlanResultPipe
 import ru.nsu.dbb.view.represent.mapper.ExplainPlanResponseMapper
@@ -15,9 +16,11 @@ import java.util.*
 import javax.inject.Inject
 
 class OutputViewController @Inject constructor(
-    private val explainPlanResultPipe: ExplainPlanResultPipe,
+    consoleController: ConsoleController,
     private val explainPlanResponseMapper: ExplainPlanResponseMapper
 ) : AbstractViewController<VBox>() {
+
+    private val explainPlanResultPipe: ExplainPlanResultPipe = consoleController.explainPlanResultPipe
 
     @FXML
     private lateinit var outputBox: VBox

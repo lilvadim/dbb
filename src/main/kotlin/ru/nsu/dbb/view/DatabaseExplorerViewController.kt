@@ -14,10 +14,12 @@ import java.util.*
 import javax.inject.Inject
 
 class DatabaseExplorerViewController @Inject constructor(
-    private val databaseStorage: DatabaseStorage,
     private val parser: ExplorerMapper,
     private val databaseConnectivityController: DatabaseConnectivityController
 ) : AbstractViewController<VBox>() {
+
+    private val databaseStorage: DatabaseStorage = databaseConnectivityController.databaseStorage
+
     @FXML
     private lateinit var treeView: TreeView<ExplorerItem>
 

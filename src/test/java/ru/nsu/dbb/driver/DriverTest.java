@@ -1,6 +1,7 @@
 package ru.nsu.dbb.driver;
 
 import org.junit.jupiter.api.Test;
+import ru.nsu.dbb.config.driver.Driver;
 import ru.nsu.dbb.entity.*;
 
 import java.sql.SQLException;
