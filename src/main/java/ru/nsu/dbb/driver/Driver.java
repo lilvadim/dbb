@@ -58,7 +58,31 @@ public class Driver {
             }
         }
         database.setCatalogs(catalogs);
+        database.setURL(metaData.getURL());
         return database;
+    }
+
+    public void setDatabaseMeta(Database database) throws SQLException {
+        var metaData = connection.getMetaData();
+
+        ArrayList<Catalog> catalogs = new ArrayList<>();
+        try (var resultSetCatalogs = metaData.getCatalogs()){
+            if (!resultSetCatalogs.isBeforeFirst()) {
+                Catalog catalog = new Catalog();
+                catalog.setSchemas(this.getSchemas(null, metaData));
+                catalogs.add(catalog);
+            } else {
+                while (resultSetCatalogs.next()) {
+                    Catalog cataLog = new Catalog();
+                    var currentCatalogName = resultSetCatalogs.getString(TABLE_CAT);
+                    cataLog.setSchemas(this.getSchemas(currentCatalogName, metaData));
+                    cataLog.setName(currentCatalogName);
+                    catalogs.add(cataLog);
+                }
+            }
+        }
+        database.setCatalogs(catalogs);
+        database.setURL(metaData.getURL());
     }
 
     private ArrayList<Schema> getSchemas(String catalogName, DatabaseMetaData metaData) throws SQLException {

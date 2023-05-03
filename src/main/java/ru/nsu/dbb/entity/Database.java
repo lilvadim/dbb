@@ -9,9 +9,9 @@ import java.util.List;
 
 public class Database {
     private final StringProperty name = new SimpleStringProperty();
-    private String URL;
-    private String user;
-    private String password;
+    private String URL = "";
+    private String user = "";
+    private String password = "";
 
     private final ObservableList<Catalog> catalogs = FXCollections.observableArrayList();
 

@@ -29,6 +29,23 @@ public class DatabaseConnectivityController {
             database.setUser(user);
             if (!databaseStorage.addDatabase(database)) {
                 System.out.println("DB exists");
+            } else {
+                Runnable refresher = () -> {
+                    while (true) {
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            throw new RuntimeException(e);
+                        }
+                        if (databaseStorage.getDatabase(databaseName) != null) {
+                            System.out.println(databaseName + " is refreshed");
+                            refreshDatabase(databaseName);
+                        } else {
+                            break;
+                        }
+                    }
+                };
+                new Thread(refresher).start();
             }
         } else {
             throw new RuntimeException("Some error");
@@ -37,6 +54,10 @@ public class DatabaseConnectivityController {
 
     public void refreshDatabase(String databaseName) {
         var currentDatabase = databaseStorage.getDatabase(databaseName);
+        if (currentDatabase == null) {
+            System.out.println("NULL!!");
+            return;
+        }
         try {
             driver.openConnection(
                     currentDatabase.getURL(),
@@ -46,19 +67,10 @@ public class DatabaseConnectivityController {
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         }
-        Database database = null;
         try {
-            database = driver.getDatabaseMeta();
+            driver.setDatabaseMeta(currentDatabase);
         } catch (SQLException e) {
             System.err.println(e.getMessage());
-        }
-        if (database != null) {
-            database.setName(databaseName);
-            if (!databaseStorage.addDatabase(database)) {
-                System.out.println("DB updated");
-            }
-        } else {
-            System.out.println("Some error");
         }
     }
 }
