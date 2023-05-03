@@ -1,5 +1,6 @@
 package ru.nsu.dbb.view
 
+import javafx.collections.ListChangeListener
 import javafx.collections.MapChangeListener
 import javafx.fxml.FXML
 import javafx.scene.control.TreeView
@@ -27,7 +28,20 @@ class DatabaseExplorerViewController @Inject constructor(
         super.initialize(location, resources)
         databaseStorage.storage.addListener(MapChangeListener {
             updateView()
+            observeCatalogs()
         })
+        observeCatalogs()
+    }
+
+    private val updater = ListChangeListener<Any> {
+        while (it.next()) {
+            updateView()
+        }
+    }
+
+    private fun observeCatalogs() {
+        databaseStorage.storage.values.forEach { db -> db.catalogs.removeListener(updater) }
+        databaseStorage.storage.values.forEach { db -> db.catalogs.addListener(updater) }
     }
 
     @FXML
