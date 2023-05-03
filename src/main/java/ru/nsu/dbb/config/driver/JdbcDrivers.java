@@ -1,6 +1,7 @@
 package ru.nsu.dbb.config.driver;
 
 import org.apache.commons.io.FileUtils;
+import ru.nsu.dbb.driver.Driver;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;

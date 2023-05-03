@@ -1,5 +1,6 @@
-package ru.nsu.dbb.config.driver;
+package ru.nsu.dbb.driver;
 
+import ru.nsu.dbb.config.driver.JdbcDrivers;
 import ru.nsu.dbb.entity.*;
 
 import java.sql.Connection;
