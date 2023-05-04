@@ -1,5 +1,6 @@
 package ru.nsu.dbb.controller;
 
+import javafx.application.Platform;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import ru.nsu.dbb.driver.Driver;
@@ -18,8 +19,7 @@ public class DatabaseConnectivityController {
 
     public void createDatabase(String databaseName, String url, String user, String password) throws SQLException {
         driver.openConnection(url, user, password);
-        Database database;
-        database = driver.getDatabaseMeta();
+        Database database = driver.getDatabaseMeta();
         if (database != null) {
             database.setName(databaseName);
             database.setPassword(password);
@@ -31,13 +31,13 @@ public class DatabaseConnectivityController {
                 Runnable refresher = () -> {
                     while (true) {
                         try {
-                            Thread.sleep(1000);
+                            Thread.sleep(10000);
                         } catch (InterruptedException e) {
                             throw new RuntimeException(e);
                         }
                         if (databaseStorage.getDatabase(databaseName) != null) {
                             System.out.println(databaseName + " is refreshed");
-                            refreshDatabase(databaseName);
+                            Platform.runLater(() -> refreshDatabase(databaseName));
                         } else {
                             break;
                         }
@@ -52,10 +52,6 @@ public class DatabaseConnectivityController {
 
     public void refreshDatabase(String databaseName) {
         var currentDatabase = databaseStorage.getDatabase(databaseName);
-        if (currentDatabase == null) {
-            System.out.println("NULL!!");
-            return;
-        }
         try {
             driver.openConnection(
                     currentDatabase.getURL(),
@@ -66,7 +62,7 @@ public class DatabaseConnectivityController {
             System.err.println(e.getMessage());
         }
         try {
-            driver.setDatabaseMeta(currentDatabase);
+            driver.updateMetaForDatabase(currentDatabase);
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         }

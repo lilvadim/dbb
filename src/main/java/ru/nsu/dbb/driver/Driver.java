@@ -15,8 +15,9 @@ public class Driver {
     private Connection connection;
 
     public void openConnection(String url, String user, String password) throws SQLException {
-        if (connection != null)
+        if (connection != null) {
             connection.close();
+        }
         Properties info = new Properties();
         info.setProperty("user", user);
         info.setProperty("password", password);
@@ -43,30 +44,11 @@ public class Driver {
     private static final String NON_UNIQUE = "NON_UNIQUE";
     public Database getDatabaseMeta() throws SQLException {
         Database database = new Database();
-        var metaData = connection.getMetaData();
-
-        ArrayList<Catalog> catalogs = new ArrayList<>();
-        try (var resultSetCatalogs = metaData.getCatalogs()){
-            if (!resultSetCatalogs.isBeforeFirst()) {
-                Catalog catalog = new Catalog();
-                catalog.setSchemas(this.getSchemas(null, metaData));
-                catalogs.add(catalog);
-            } else {
-                while (resultSetCatalogs.next()) {
-                    Catalog cataLog = new Catalog();
-                    var currentCatalogName = resultSetCatalogs.getString(TABLE_CAT);
-                    cataLog.setSchemas(this.getSchemas(currentCatalogName, metaData));
-                    cataLog.setName(currentCatalogName);
-                    catalogs.add(cataLog);
-                }
-            }
-        }
-        database.setCatalogs(catalogs);
-        database.setURL(metaData.getURL());
+        updateMetaForDatabase(database);
         return database;
     }
 
-    public void setDatabaseMeta(Database database) throws SQLException {
+    public void updateMetaForDatabase(Database database) throws SQLException {
         var metaData = connection.getMetaData();
 
         ArrayList<Catalog> catalogs = new ArrayList<>();
