@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?language groovy?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.Scene?>
+<?import javafx.stage.Stage?>
+<Stage xmlns:fx="http://javafx.com/fxml"
+       xmlns="http://javafx.com/javafx"
+       fx:controller="ru.nsu.dbb.view.ModifyTableScreenController" fx:id="window">
+    <fx:script>
+        import javafx.stage.Stage
+
+        def closeWindow() {
+            ((Stage) window).close()
+        }
+    </fx:script>
+    <scene>
+        <Scene stylesheets="@common.css">
+            <VBox fx:id="root" style="-fx-padding: 10;" alignment="CENTER_LEFT" spacing="10">
+                <Label styleClass="title-label">Modify Table</Label>
+                <Label styleClass="ui-label" fx:id="operationDescription"/>
+                <TextArea fx:id="queryText"/>
+                <HBox>
+                    <Button>Apply</Button>
+                    <Button onAction="closeWindow()">Cancel</Button>
+                </HBox>
+            </VBox>
+        </Scene>
+    </scene>
+</Stage>

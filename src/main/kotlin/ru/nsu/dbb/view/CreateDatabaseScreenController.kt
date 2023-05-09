@@ -30,7 +30,6 @@ class CreateDatabaseScreenController @Inject constructor(
     @FXML
     private lateinit var manualUrl: TextField
 
-
     @FXML
     private lateinit var createButton: Button
 
@@ -46,7 +45,8 @@ class CreateDatabaseScreenController @Inject constructor(
             .bind(not(_chosenFileProperty.isNotNull.or(manualUrl.textProperty().isNotBlank())))
     }
 
-    fun chooseFile() {
+    @FXML
+    private fun chooseFile() {
         val fileChooser = FileChooser()
         val chosenFile: File? = fileChooser.showOpenDialog(stage)
 
@@ -56,7 +56,8 @@ class CreateDatabaseScreenController @Inject constructor(
         }
     }
 
-    fun create() {
+    @FXML
+    private fun create() {
         if (manualUrl.text.isEmpty()) {
             try {
                 databaseConnectivityController.createDatabase(
