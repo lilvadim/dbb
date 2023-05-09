@@ -39,7 +39,7 @@ public class DdlQueryBuilder {
         );
     }
 
-    public String createIndexStatement(String tableName, String indexName, ArrayList<String> columnsInIndex) {
+    public String createIndexStatement(String tableName, String indexName, List<String> columnsInIndex) {
         StringBuilder columns = new StringBuilder();
         var size = columnsInIndex.size();
         for (int i = 0; i < size; i++) {
