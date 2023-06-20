@@ -9,10 +9,13 @@ import ru.nsu.dbb.exceptions.QueryNotModifiableException;
 import ru.nsu.dbb.exceptions.UnknownQueryTypeException;
 import ru.nsu.dbb.explain_plan.SQLDialect;
 import ru.nsu.dbb.response.ExplainPlanResultPipe;
+import ru.nsu.dbb.response.SelectResultPipe;
 import ru.nsu.dbb.sql.SqlParser;
 
 import javax.inject.Inject;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import static ru.nsu.dbb.explain_plan.ExplainPlanParserKt.explainResultSetToTree;
 
@@ -26,8 +29,16 @@ public class ConsoleController {
 
     private final ConsoleLog consoleLog;
     private final ExplainPlanResultPipe explainPlanResultPipe;
+    private final SelectResultPipe selectResultPipe;
+
+    private Statement statement;
 
     public void runQuery(String query) throws UnknownQueryTypeException, QueryNotModifiableException, SQLException {
+        if (statement != null) {
+            statement.close();
+        }
+        statement = driver.createStatement();
+
         var queryType = sqlParser.getTypeOfQuery(query);
         switch (queryType) {
             case SELECT -> {
@@ -53,36 +64,30 @@ public class ConsoleController {
     }
 
     private void ddlQuery(String query) throws SQLException, QueryNotModifiableException {
-        try (var statement = driver.createStatement()) {
-            var isNotModifiable = statement.execute(query);
-            if (!isNotModifiable)
-                throw new QueryNotModifiableException();
-        }
+        var isNotModifiable = statement.execute(query);
+        if (!isNotModifiable)
+            throw new QueryNotModifiableException();
     }
 
-    // TODO надо создать сущности для селекта и положить туда результат
-    private void selectQuery(String query) {
-
+    private void selectQuery(String query) throws SQLException {
+        ResultSet resultSet = statement.executeQuery(query);
+        selectResultPipe.load(resultSet);
     }
 
     // TODO надо понять, куда положить результат и написать эту энтити
     private int modifyDataQuery(String query) throws SQLException, QueryNotModifiableException {
-        try (var statement = driver.createStatement()) {
-            var isNotModifiable = statement.execute(query);
-            int count;
-            if (!isNotModifiable)
-                return statement.getUpdateCount();
-            else
-                throw new QueryNotModifiableException();
-        }
+        var isNotModifiable = statement.execute(query);
+        int count;
+        if (!isNotModifiable)
+            return statement.getUpdateCount();
+        else
+            throw new QueryNotModifiableException();
     }
 
     // TODO надо понять, в какую энтити это сложить и как
     private void explainPlanQuery(String query) throws SQLException {
-        try (var statement = driver.createStatement()) {
-            var resultSet = statement.executeQuery(query);
-            var root = explainResultSetToTree(resultSet, "Select", SQLDialect.POSTGRE);
-            explainPlanResultPipe.pushItem(root);
-        }
+        var resultSet = statement.executeQuery(query);
+        var root = explainResultSetToTree(resultSet, "Select", SQLDialect.POSTGRE);
+        explainPlanResultPipe.pushItem(root);
     }
 }
