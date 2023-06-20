@@ -14,6 +14,7 @@ import ru.nsu.dbb.driver.Driver;
 import ru.nsu.dbb.entity.ConsoleLog;
 import ru.nsu.dbb.entity.DatabaseStorage;
 import ru.nsu.dbb.response.ExplainPlanResultPipe;
+import ru.nsu.dbb.response.SelectResultPipe;
 import ru.nsu.dbb.view.AlertFactory;
 import ru.nsu.dbb.view.MainController;
 
@@ -31,6 +32,7 @@ public class AppModule extends AbstractModule {
         bind(AlertFactory.class).in(Singleton.class);
         bind(Driver.class).in(Singleton.class);
         bind(ExplainPlanResultPipe.class).in(Singleton.class);
+        bind(SelectResultPipe.class).in(Singleton.class);
         bind(DatabaseConnectivityController.class).in(Singleton.class);
         bind(ConsoleController.class).in(Singleton.class);
     }

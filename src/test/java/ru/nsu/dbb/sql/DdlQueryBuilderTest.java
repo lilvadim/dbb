@@ -1,4 +1,4 @@
-package ru.nsu.dbb.constructor;
+package ru.nsu.dbb.sql;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -6,12 +6,12 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-class QueryConstructorTest {
+class DdlQueryBuilderTest {
 
     @Test
     void createAddColumnStatementTest() {
-        QueryConstructor queryConstructor = new QueryConstructor();
-        var actual = queryConstructor.createAddColumnStatement(
+        DdlQueryBuilder ddlQueryBuilder = new DdlQueryBuilder();
+        var actual = ddlQueryBuilder.createAddColumnStatement(
                 "my_table",
                 "new_col",
                 "String",
@@ -26,8 +26,8 @@ class QueryConstructorTest {
 
     @Test
     void createDropColumnStatementTest() {
-        QueryConstructor queryConstructor = new QueryConstructor();
-        var actual = queryConstructor.createDropColumnStatement(
+        DdlQueryBuilder ddlQueryBuilder = new DdlQueryBuilder();
+        var actual = ddlQueryBuilder.createDropColumnStatement(
                 "my_table",
                 "new_col"
         );
@@ -40,8 +40,8 @@ class QueryConstructorTest {
 
     @Test
     void createChangeColumnNameStatementTest() {
-        QueryConstructor queryConstructor = new QueryConstructor();
-        var actual = queryConstructor.createChangeColumnNameStatement(
+        DdlQueryBuilder ddlQueryBuilder = new DdlQueryBuilder();
+        var actual = ddlQueryBuilder.createChangeColumnNameStatement(
                 "my_table",
                 "old_col",
                 "new_col"
@@ -55,8 +55,8 @@ class QueryConstructorTest {
 
     @Test
     void createIndexStatementTest() {
-        QueryConstructor queryConstructor = new QueryConstructor();
-        var actual = queryConstructor.createIndexStatement(
+        DdlQueryBuilder ddlQueryBuilder = new DdlQueryBuilder();
+        var actual = ddlQueryBuilder.createIndexStatement(
                 "my_table",
                 "new_index",
                 new ArrayList<>(List.of("col1", "col2"))
@@ -70,8 +70,8 @@ class QueryConstructorTest {
 
     @Test
     void createDropIndexStatementTest() {
-        QueryConstructor queryConstructor = new QueryConstructor();
-        var actual = queryConstructor.createDropIndexStatement("index");
+        DdlQueryBuilder ddlQueryBuilder = new DdlQueryBuilder();
+        var actual = ddlQueryBuilder.createDropIndexStatement("index");
 
         Assertions.assertEquals(
                 "DROP INDEX index",
