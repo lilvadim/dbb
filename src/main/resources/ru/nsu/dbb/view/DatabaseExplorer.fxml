@@ -11,6 +11,7 @@
       maxWidth="Infinity" maxHeight="Infinity">
     <fx:define>
         <fx:include source="CreateDatabaseScreen.fxml" fx:id="createDatabaseScreen"/>
+        <fx:include source="ModifyTableScreen.fxml" fx:id="modifyTableScreen"/>
     </fx:define>
     <fx:script>
         import javafx.stage.Stage

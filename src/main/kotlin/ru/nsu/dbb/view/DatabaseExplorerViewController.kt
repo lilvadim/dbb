@@ -26,11 +26,15 @@ class DatabaseExplorerViewController @Inject constructor(
 
     override fun initialize(location: URL, resources: ResourceBundle) {
         super.initialize(location, resources)
+        observeStorage()
+        observeCatalogs()
+    }
+
+    private fun observeStorage() {
         databaseStorage.storage.addListener(MapChangeListener {
             updateView()
             observeCatalogs()
         })
-        observeCatalogs()
     }
 
     private val updater = ListChangeListener<Any> {

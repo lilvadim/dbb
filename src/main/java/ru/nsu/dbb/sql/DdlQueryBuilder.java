@@ -1,16 +1,16 @@
-package ru.nsu.dbb.constructor;
+package ru.nsu.dbb.sql;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class QueryConstructor {
+public class DdlQueryBuilder {
     private static final String addColumnStatementTemplate = "ALTER TABLE %s ADD COLUMN %s %s %s";
 
     private static final String dropColumnStatementTemplate = "ALTER TABLE %s DROP COLUMN %s";
 
     private static final String renameColumnStatementTemplate = "ALTER TABLE %s RENAME %s TO %s";
 
-    private static final String createIndexStatementTemplate  = "CREATE INDEX %s ON %s (%s)";
+    private static final String createIndexStatementTemplate = "CREATE INDEX %s ON %s (%s)";
 
     private static final String dropIndexStatementTemplate = "DROP INDEX %s";
 
@@ -39,8 +39,8 @@ public class QueryConstructor {
         );
     }
 
-    public String createIndexStatement(String tableName, String indexName, ArrayList<String> columnsInIndex) {
-        StringBuilder columns = new StringBuilder("");
+    public String createIndexStatement(String tableName, String indexName, List<String> columnsInIndex) {
+        StringBuilder columns = new StringBuilder();
         var size = columnsInIndex.size();
         for (int i = 0; i < size; i++) {
             if (i != size - 1) {
