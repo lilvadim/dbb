@@ -15,5 +15,5 @@
             <Button text="Run Query" styleClass="ui-label" onAction="#runQuery"/>
         </HBox>
     </HBox>
-    <TextArea VBox.vgrow="ALWAYS" fx:id="textArea"/>
+    <TextArea VBox.vgrow="ALWAYS" fx:id="textArea" style="-fx-font-family: 'monospace'"/>
 </VBox>
