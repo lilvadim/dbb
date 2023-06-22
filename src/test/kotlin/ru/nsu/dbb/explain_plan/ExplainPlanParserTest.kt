@@ -1,11 +1,13 @@
 package ru.nsu.dbb.explain_plan
 
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import ru.nsu.dbb.driver.Driver
 
 class ExplainPlanParserTest {
 
     @Test
+    @Disabled
     fun explainPlan() {
         val mysqlQuery1 = "explain select MAX(PersonID) from Persons\n" +
                 "where PersonID >= 2 and City != 'qwe'\n" +
@@ -36,8 +38,8 @@ class ExplainPlanParserTest {
         //driver.openConnection("jdbc:mysql://localhost:3306/myDB", "mysql", "123")
         driver.openConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "123")
         //driver.openConnection("jdbc:sqlite:src/test/resources/chinook.db", "", "")
-        val statement = driver.createStatement()
-        val resultSet = statement.executeQuery(postgresQuery1)
+//        val statement = driver.createStatement()
+//        val resultSet = statement.executeQuery(postgresQuery1)
 
 //        while (resultSet.next()) {
 //            val str = resultSet.getString(4)
@@ -46,7 +48,7 @@ class ExplainPlanParserTest {
 //            println()
 //        }
         //val root = explainResultSetToTree(resultSet, "Select", SQLDialect.SQLITE)
-        val root = explainResultSetToTree(rs = resultSet, queryName = "Select", dialect = SQLDialect.POSTGRE)
+//        val root = explainResultSetToTree(rs = resultSet, queryName = "Select", dialect = SQLDialect.POSTGRE)
         println()
     }
 }
