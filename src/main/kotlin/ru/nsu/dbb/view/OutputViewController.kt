@@ -72,7 +72,7 @@ class OutputViewController @Inject constructor(
                         isSortable = false
                         isEditable = false
                         cellValueFactory = Callback { f ->
-                            SimpleStringProperty(f.value.get(idx)?.toString() ?: "")
+                            SimpleStringProperty(f.value.get(idx)?.toString() ?: "[null]")
                         }
                     }
                 }

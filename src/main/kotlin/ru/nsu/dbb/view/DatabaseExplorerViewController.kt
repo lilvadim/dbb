@@ -4,6 +4,7 @@ import javafx.collections.ListChangeListener
 import javafx.collections.MapChangeListener
 import javafx.event.EventHandler
 import javafx.fxml.FXML
+import javafx.scene.control.TreeItem
 import javafx.scene.control.ContextMenu
 import javafx.scene.control.MenuItem
 import javafx.scene.control.TreeCell
@@ -86,6 +87,20 @@ class DatabaseExplorerViewController @Inject constructor(
     }
 
     private fun updateView() {
-        treeView.root = mapper.mapToTreeView(databaseStorage)
+        val oldRoot = treeView.root
+        val newRoot = mapper.mapToTreeView(databaseStorage)
+        restoreExpandedItems(newRoot, oldRoot)
+        treeView.root = newRoot
+    }
+
+    private fun restoreExpandedItems(newItem: TreeItem<ExplorerItem>, oldItem: TreeItem<ExplorerItem>?) {
+        if (oldItem == null) {
+            return
+        }
+        val oldChildrenByLabel = oldItem.children.associateBy { it.value.label }
+        newItem.isExpanded = oldItem.isExpanded
+        newItem.children.forEach { item ->
+            restoreExpandedItems(item, oldChildrenByLabel[item.value.label])
+        }
     }
 }
