@@ -1,5 +1,6 @@
 package ru.nsu.dbb.view
 
+import javafx.beans.property.Property
 import javafx.beans.value.ObservableValue
 import javafx.fxml.FXML
 import javafx.scene.Node
@@ -43,7 +44,7 @@ class ModifyTableScreenController @Inject constructor(
         consoleController.runQuery(databaseContext.database?.name, query())
     }
 
-    fun initForOperation(ddlOperationType: DdlOperationType) {
+    fun initForOperation(ddlOperationType: DdlOperationType, alreadySetParams: Map<DdlOperationParameter, Any>) {
         this.ddlOperationType = ddlOperationType
         dbName.text = "Database: ${databaseContext.database?.name}"
         operationDescription.text = ddlOperationType.description
@@ -52,6 +53,9 @@ class ModifyTableScreenController @Inject constructor(
             it.addListener { _, _, _ ->
                 queryText.text = query()
             }
+        }
+        for ((param, value) in alreadySetParams) {
+            (fieldsMap[param]?.second as? Property<Any>)?.value = value
         }
         container.children.setAll(fieldsMap.values.map { it.first })
     }

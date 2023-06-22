@@ -11,6 +11,7 @@ import javafx.util.Callback
 import ru.nsu.dbb.controller.ConsoleController
 import ru.nsu.dbb.controller.DatabaseConnectivityController
 import ru.nsu.dbb.entity.*
+import ru.nsu.dbb.sql.ddl.DdlOperationParameter
 import ru.nsu.dbb.sql.ddl.DdlOperationType
 import ru.nsu.dbb.view.context.DatabaseContext
 import ru.nsu.dbb.view.represent.ExplorerItem
@@ -50,22 +51,10 @@ class DatabaseExplorerViewController @Inject constructor(
         treeView.cellFactory = Callback {
             TreeCell<ExplorerItem>().apply {
                 textProperty().bind(itemProperty().map { it.label })
-                val ddls = treeItemProperty().map { it.value }.map { ddlQueryForItem(it.reference::class) }
+                val ddls = itemProperty().map { ddlQueryForItem(it.reference::class) }
+                contextMenu(listOf())
                 ddls.addListener { _, _, new ->
-                    if (new != null && new.isNotEmpty()) {
-                        contextMenu = ContextMenu().apply {
-                            items.setAll(
-                                new.map {
-                                    MenuItem(it.description).apply {
-                                        onAction = EventHandler { e ->
-                                            modifyTableScreenController.initForOperation(it)
-                                            modifyTableScreen.show()
-                                        }
-                                    }
-                                }
-                            )
-                        }
-                    }
+                    contextMenu(new)
                 }
                 onMouseClicked = EventHandler { e ->
                     if (item != null) {
@@ -77,6 +66,37 @@ class DatabaseExplorerViewController @Inject constructor(
                     treeItem.isExpanded = !treeItem.isExpanded
                 }
             }
+        }
+    }
+
+    private fun TreeCell<ExplorerItem>.contextMenu(new: List<DdlOperationType>?) {
+        val item = item
+        if (new != null) {
+            contextMenu = ContextMenu().apply {
+                val ref = item?.reference
+                if (ref != null && ref is Database) {
+                    items += MenuItem("Remove datasource").apply {
+                        onAction = EventHandler {
+                            databaseConnectivityController.databaseStorage.storage.remove(ref.name)
+                        }
+                    }
+                }
+                items += new.map {
+                    MenuItem(it.description).apply {
+                        onAction = EventHandler { _ ->
+                            modifyTableScreenController.initForOperation(it, params(item))
+                            modifyTableScreen.show()
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun params(explorerItem: ExplorerItem): Map<DdlOperationParameter, Any> {
+        return when (explorerItem.reference) {
+            is Table -> mapOf(DdlOperationParameter.TABLE_NAME to explorerItem.reference.name)
+            else -> emptyMap()
         }
     }
 
