@@ -3,11 +3,7 @@ package ru.nsu.dbb.view
 import javafx.application.Platform
 import javafx.beans.property.SimpleStringProperty
 import javafx.fxml.FXML
-import javafx.scene.control.ScrollBar
-import javafx.scene.control.TableColumn
-import javafx.scene.control.TableView
-import javafx.scene.control.TreeTableColumn
-import javafx.scene.control.TreeTableView
+import javafx.scene.control.*
 import javafx.scene.layout.Region
 import javafx.scene.layout.VBox
 import javafx.util.Callback
@@ -70,13 +66,13 @@ class OutputViewController @Inject constructor(
             maxWidth = Double.MAX_VALUE
             columns.addAll(
                 result.columns.mapIndexed { idx, column ->
-                    TableColumn<ResultRow, String>(column.label + "\n" + column.typeName).apply {
+                    TableColumn<ResultRow, String>("${column.label}\n[${column.typeName}]").apply {
                         prefWidth = 250.0
                         isReorderable = false
                         isSortable = false
                         isEditable = false
                         cellValueFactory = Callback { f ->
-                            SimpleStringProperty(f.value.get(idx).toString())
+                            SimpleStringProperty(f.value.get(idx)?.toString() ?: "")
                         }
                     }
                 }
