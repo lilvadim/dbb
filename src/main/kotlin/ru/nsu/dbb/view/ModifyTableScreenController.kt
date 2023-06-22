@@ -42,9 +42,11 @@ class ModifyTableScreenController @Inject constructor(
     @FXML
     private fun apply() {
         consoleController.runQuery(databaseContext.database?.name, query())
+        stage?.close()
     }
 
     fun initForOperation(ddlOperationType: DdlOperationType, alreadySetParams: Map<DdlOperationParameter, Any>) {
+        queryText.clear()
         this.ddlOperationType = ddlOperationType
         dbName.text = "Database: ${databaseContext.database?.name}"
         operationDescription.text = ddlOperationType.description

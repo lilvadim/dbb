@@ -71,6 +71,7 @@ class DatabaseExplorerViewController @Inject constructor(
 
     private fun TreeCell<ExplorerItem>.contextMenu(new: List<DdlOperationType>?) {
         val item = item
+        val treeItem = treeItem
         if (new != null) {
             contextMenu = ContextMenu().apply {
                 val ref = item?.reference
@@ -84,7 +85,7 @@ class DatabaseExplorerViewController @Inject constructor(
                 items += new.map {
                     MenuItem(it.description).apply {
                         onAction = EventHandler { _ ->
-                            modifyTableScreenController.initForOperation(it, params(item))
+                            modifyTableScreenController.initForOperation(it, params(treeItem))
                             modifyTableScreen.show()
                         }
                     }
@@ -93,9 +94,15 @@ class DatabaseExplorerViewController @Inject constructor(
         }
     }
 
-    private fun params(explorerItem: ExplorerItem): Map<DdlOperationParameter, Any> {
-        return when (explorerItem.reference) {
-            is Table -> mapOf(DdlOperationParameter.TABLE_NAME to explorerItem.reference.name)
+    private fun params(treeItem: TreeItem<ExplorerItem>): Map<DdlOperationParameter, Any> {
+        val item = treeItem.value.reference
+        return when (item) {
+            is Table -> mapOf(DdlOperationParameter.TABLE_NAME to item.name)
+            is Column -> mapOf(
+                DdlOperationParameter.TABLE_NAME to relatedTable(treeItem).name,
+                DdlOperationParameter.COLUMN_NAME to item.name
+            )
+
             else -> emptyMap()
         }
     }
@@ -139,6 +146,17 @@ class DatabaseExplorerViewController @Inject constructor(
             item = item.parent
         }
         return item.value.reference as Database
+    }
+
+    private fun relatedTable(treeItem: TreeItem<ExplorerItem>): Table {
+        var item = treeItem
+        while (item.parent != null) {
+            if (item.value.reference is Table) {
+                break
+            }
+            item = item.parent
+        }
+        return item.value.reference as Table
     }
 
     private fun observeStorage() {

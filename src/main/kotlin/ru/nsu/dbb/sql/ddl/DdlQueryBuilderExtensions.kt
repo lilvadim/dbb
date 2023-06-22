@@ -33,6 +33,12 @@ fun DdlQueryBuilder.createStatement(
             parameters[DdlOperationParameter.INDEX_NAME] as String
         )
 
+        DdlOperationType.CHANGE_COLUMN_NAME -> createChangeColumnNameStatement(
+            parameters[DdlOperationParameter.TABLE_NAME] as String,
+            parameters[DdlOperationParameter.COLUMN_NAME] as String,
+            parameters[DdlOperationParameter.NEW_COLUMN_NAME] as String
+        )
+
         else -> throw IllegalStateException()
     }
 }

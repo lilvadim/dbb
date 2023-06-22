@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<?language groovy?>
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.HBox?>
@@ -8,7 +9,14 @@
 <Stage xmlns:fx="http://javafx.com/fxml"
        xmlns="http://javafx.com/javafx"
        fx:controller="ru.nsu.dbb.view.CreateDatabaseScreenController"
-       resizable="false" width="256">
+       resizable="false" width="256" fx:id="window">
+       <fx:script>
+               import javafx.stage.Stage
+
+               def closeWindow() {
+                   ((Stage) window).close()
+               }
+       </fx:script>
     <scene>
         <Scene stylesheets="@common.css">
             <VBox spacing="10" style="-fx-padding: 10;" alignment="CENTER_LEFT" fx:id="root">
@@ -21,7 +29,10 @@
                 </HBox>
                 <Label text="Manually enter URL"/>
                 <TextField promptText="URL" fx:id="manualUrl"/>
+                <HBox spacing="5">
                 <Button fx:id="createButton" text="Add" onAction="#create" defaultButton="true" disable="true"/>
+                <Button onAction="closeWindow()">Cancel</Button>
+                </HBox>
             </VBox>
         </Scene>
     </scene>

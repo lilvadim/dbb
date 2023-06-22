@@ -23,9 +23,9 @@
                 <Label styleClass="ui-label" fx:id="operationDescription"/>
                 <Label fx:id="dbName"/>
                 <VBox fx:id="container" spacing="5"/>
-                <TextArea fx:id="queryText"/>
+                <TextArea fx:id="queryText" style="-fx-font-family: 'monospace';"/>
                 <HBox spacing="5">
-                    <Button onAction="#apply">Apply</Button>
+                    <Button onAction="#apply">Execute</Button>
                     <Button onAction="closeWindow()">Cancel</Button>
                 </HBox>
             </VBox>
