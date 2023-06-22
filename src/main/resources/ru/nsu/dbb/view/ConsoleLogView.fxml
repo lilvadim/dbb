@@ -5,7 +5,7 @@
 <VBox xmlns:fx="http://javafx.com/fxml"
       xmlns="http://javafx.com/javafx"
       fx:controller="ru.nsu.dbb.view.ConsoleLogViewController" fx:id="root">
-    <ScrollPane VBox.vgrow="ALWAYS">
-        <VBox fx:id="container" style="-fx-padding: 5;" spacing="3"/>
+    <ScrollPane VBox.vgrow="ALWAYS" fx:id="scrollPane">
+        <VBox fx:id="container" style="-fx-padding: 5;" spacing="3" prefWidth="${scrollPane.width - 10}"/>
     </ScrollPane>
 </VBox>

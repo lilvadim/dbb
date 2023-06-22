@@ -2,7 +2,7 @@ package ru.nsu.dbb.view
 
 import javafx.collections.ListChangeListener
 import javafx.fxml.FXML
-import javafx.scene.control.Label
+import javafx.scene.control.TextField
 import javafx.scene.layout.VBox
 import ru.nsu.dbb.controller.ConsoleController
 import ru.nsu.dbb.entity.ConsoleLog
@@ -30,6 +30,17 @@ class ConsoleLogViewController @Inject constructor(
     private lateinit var container: VBox
 
     private fun printLog() {
-        container.children.add(Label(consoleLog.logs.last()))
+        container.children +=
+            TextField(consoleLog.logs.last()).apply {
+                style = """
+                    -fx-background-color: transparent ;
+                    -fx-background-insets: 0px ;
+                    -fx-font-family: 'monospace';
+                """.trimIndent()
+                isEditable = false
+                maxWidth = Double.MAX_VALUE
+                prefWidth = container.width
+                prefWidthProperty().bind(container.widthProperty())
+            }
     }
 }

@@ -66,7 +66,7 @@ public class DdlQueryBuilder {
 
     public String createTableStatememt(String tableName) {
         tableStructure = new ArrayList<>();
-        tableStructure.add("CREATE TABLE (");
+        tableStructure.add("CREATE TABLE " + tableName + " (");
         tableStructure.add(");");
         return getResultString();
     }

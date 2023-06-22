@@ -17,6 +17,7 @@ import ru.nsu.dbb.response.ExplainPlanResultPipe;
 import ru.nsu.dbb.response.SelectResultPipe;
 import ru.nsu.dbb.view.AlertFactory;
 import ru.nsu.dbb.view.MainController;
+import ru.nsu.dbb.view.context.DatabaseContext;
 
 import java.io.IOException;
 import java.net.URL;
@@ -63,5 +64,11 @@ public class AppModule extends AbstractModule {
     @Singleton
     JdbcDrivers.DriverList driverList() {
         return JdbcDrivers.getDriverList();
+    }
+
+    @Provides
+    @Singleton
+    DatabaseContext databaseContext() {
+        return new DatabaseContext(null);
     }
 }
