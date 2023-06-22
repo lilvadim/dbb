@@ -4,14 +4,16 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.control.ComboBox?>
 <VBox xmlns:fx="http://javafx.com/fxml" fx:id="root"
       xmlns="http://javafx.com/javafx"
       fx:controller="ru.nsu.dbb.view.QueryConsoleViewController"
       stylesheets="@common.css">
     <HBox alignment="CENTER">
-        <HBox style="-fx-padding: 5;" HBox.hgrow="ALWAYS">
+        <HBox style="-fx-padding: 5;" HBox.hgrow="ALWAYS" spacing="5">
             <Label text="Query Console" styleClass="ui-label"/>
             <HBox HBox.hgrow="ALWAYS"/>
+            <ComboBox fx:id="databaseSelector" style="-fx-font-size: 14"/>
             <Button text="Run Query" styleClass="ui-label" onAction="#runQuery"/>
         </HBox>
     </HBox>

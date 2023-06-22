@@ -1,6 +1,6 @@
 package ru.nsu.dbb.entity.explain_plan
 
-data class StringTreeNode(
+class StringTreeNode(
     /**
      * Mapping column name -> value
      */

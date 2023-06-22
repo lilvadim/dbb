@@ -3,6 +3,7 @@ package ru.nsu.dbb.view
 import javafx.collections.ListChangeListener
 import javafx.collections.MapChangeListener
 import javafx.fxml.FXML
+import javafx.scene.control.TreeItem
 import javafx.scene.control.TreeView
 import javafx.scene.layout.VBox
 import ru.nsu.dbb.controller.DatabaseConnectivityController
@@ -55,6 +56,20 @@ class DatabaseExplorerViewController @Inject constructor(
     }
 
     private fun updateView() {
-        treeView.root = mapper.mapToTreeView(databaseStorage)
+        val oldRoot = treeView.root
+        val newRoot = mapper.mapToTreeView(databaseStorage)
+        restoreExpandedItems(newRoot, oldRoot)
+        treeView.root = newRoot
+    }
+
+    private fun restoreExpandedItems(newItem: TreeItem<ExplorerItem>, oldItem: TreeItem<ExplorerItem>?) {
+        if (oldItem == null) {
+            return
+        }
+        val oldChildrenByLabel = oldItem.children.associateBy { it.value.label }
+        newItem.isExpanded = oldItem.isExpanded
+        newItem.children.forEach { item ->
+            restoreExpandedItems(item, oldChildrenByLabel[item.value.label])
+        }
     }
 }
