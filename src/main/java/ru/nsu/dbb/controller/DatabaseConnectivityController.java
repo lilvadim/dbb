@@ -37,6 +37,9 @@ public class DatabaseConnectivityController {
     public void refreshDatabase(String databaseName) {
         try {
             var currentDatabase = databaseStorage.getDatabase(databaseName);
+            if (currentDatabase == null) {
+                return;
+            }
             driver.updateMetaForDatabase(currentDatabase);
         } catch (SQLException e) {
             System.err.println(e.getMessage());
