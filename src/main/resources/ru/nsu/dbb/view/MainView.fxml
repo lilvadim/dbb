@@ -14,7 +14,7 @@
         }
     </fx:script>
     <scene>
-        <Scene stylesheets="@common.css">
+        <Scene stylesheets="@common.css" width="800" height="600">
             <VBox maxHeight="Infinity" maxWidth="Infinity" fx:id="root">
                 <SplitPane maxHeight="Infinity" maxWidth="Infinity" VBox.vgrow="ALWAYS">
                     <fx:include source="DatabaseExplorer.fxml" VBox.vgrow="ALWAYS"/>

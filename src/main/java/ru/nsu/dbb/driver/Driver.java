@@ -8,20 +8,23 @@ import java.sql.DatabaseMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
 
 public class Driver {
-    private Connection connection;
+    private final Map<String, Connection> connections = new HashMap<>();
 
-    public void openConnection(String url, String user, String password) throws SQLException {
-        if (connection != null) {
-            connection.close();
+    public Database openConnection(String url, String user, String password) throws SQLException {
+        if (connections.containsKey(url)) {
+            connections.get(url).close();
         }
         Properties info = new Properties();
         info.setProperty("user", user);
         info.setProperty("password", password);
-        connection = JdbcDrivers.getDriver(url).connect(url, info);
+        connections.put(url, JdbcDrivers.getDriver(url).connect(url, info));
+        return getDatabaseMeta(url);
     }
 
     private static final String TABLE_CAT = "TABLE_CAT";
@@ -42,14 +45,15 @@ public class Driver {
     private static final String INDEX_NAME = "INDEX_NAME";
 
     private static final String NON_UNIQUE = "NON_UNIQUE";
-    public Database getDatabaseMeta() throws SQLException {
+    public Database getDatabaseMeta(String url) throws SQLException {
         Database database = new Database();
+        database.setURL(url);
         updateMetaForDatabase(database);
         return database;
     }
 
     public void updateMetaForDatabase(Database database) throws SQLException {
-        var metaData = connection.getMetaData();
+        var metaData = connections.get(database.getURL()).getMetaData();
 
         ArrayList<Catalog> catalogs = new ArrayList<>();
         try (var resultSetCatalogs = metaData.getCatalogs()){
@@ -68,7 +72,6 @@ public class Driver {
             }
         }
         database.setCatalogs(catalogs);
-        database.setURL(metaData.getURL());
     }
 
     private ArrayList<Schema> getSchemas(String catalogName, DatabaseMetaData metaData) throws SQLException {
@@ -180,8 +183,8 @@ public class Driver {
         return indexes;
     }
 
-    public Statement createStatement() throws SQLException {
-        return connection.createStatement();
+    public Statement createStatement(String url) throws SQLException {
+        return connections.get(url).createStatement();
     }
 }
 

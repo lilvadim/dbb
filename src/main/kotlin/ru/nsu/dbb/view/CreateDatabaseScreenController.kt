@@ -83,6 +83,8 @@ class CreateDatabaseScreenController @Inject constructor(
                 alertFactory.simpleExceptionAlert(e, stage).show()
             }
         }
+        this.chosenFile = null
+        fileNameLabel.text = "Not selected"
+        manualUrl.text = ""
     }
 }
-

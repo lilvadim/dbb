@@ -18,8 +18,7 @@ public class DatabaseConnectivityController {
     private final DatabaseStorage databaseStorage;
 
     public void createDatabase(String databaseName, String url, String user, String password) throws SQLException {
-        driver.openConnection(url, user, password);
-        Database database = driver.getDatabaseMeta();
+        Database database = driver.openConnection(url, user, password);
         if (database != null) {
             database.setName(databaseName);
             database.setPassword(password);
@@ -36,17 +35,8 @@ public class DatabaseConnectivityController {
     }
 
     public void refreshDatabase(String databaseName) {
-        var currentDatabase = databaseStorage.getDatabase(databaseName);
         try {
-            driver.openConnection(
-                    currentDatabase.getURL(),
-                    currentDatabase.getUser(),
-                    currentDatabase.getPassword()
-            );
-        } catch (SQLException e) {
-            System.err.println(e.getMessage());
-        }
-        try {
+            var currentDatabase = databaseStorage.getDatabase(databaseName);
             driver.updateMetaForDatabase(currentDatabase);
         } catch (SQLException e) {
             System.err.println(e.getMessage());

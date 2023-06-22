@@ -21,7 +21,7 @@ class ModifyTableScreenController @Inject constructor(
 
     @FXML
     private fun apply() {
-        consoleController.runQuery(queryText.text)
+//        consoleController.runQuery(queryText.text)
     }
 
     fun operation(sqlOperationType: SqlOperationType) {

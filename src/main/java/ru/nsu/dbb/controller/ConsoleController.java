@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import ru.nsu.dbb.driver.Driver;
 import ru.nsu.dbb.entity.ConsoleLog;
+import ru.nsu.dbb.entity.Database;
 import ru.nsu.dbb.entity.DatabaseStorage;
 import ru.nsu.dbb.exceptions.QueryNotModifiableException;
 import ru.nsu.dbb.exceptions.UnknownQueryTypeException;
@@ -33,11 +34,12 @@ public class ConsoleController {
 
     private Statement statement;
 
-    public void runQuery(String query) throws UnknownQueryTypeException, QueryNotModifiableException, SQLException {
+    public void runQuery(String databaseName, String query) throws UnknownQueryTypeException, SQLException {
         if (statement != null) {
             statement.close();
         }
-        statement = driver.createStatement();
+        Database currentDatabase = databaseStorage.getDatabase(databaseName);
+        statement = driver.createStatement(currentDatabase.getURL());
 
         var queryType = sqlParser.getTypeOfQuery(query);
         switch (queryType) {
@@ -53,7 +55,7 @@ public class ConsoleController {
             case DDL -> {
                 ddlQuery(query);
                 consoleLog.addNewLog(query);
-                databaseStorage.addDatabase(driver.getDatabaseMeta());
+                driver.updateMetaForDatabase(currentDatabase);
             }
             case EXPLAIN_PLAN -> {
                 consoleLog.addNewLog(query);
@@ -63,10 +65,8 @@ public class ConsoleController {
         }
     }
 
-    private void ddlQuery(String query) throws SQLException, QueryNotModifiableException {
-        var isNotModifiable = statement.execute(query);
-        if (!isNotModifiable)
-            throw new QueryNotModifiableException();
+    private void ddlQuery(String query) throws SQLException {
+        statement.execute(query);
     }
 
     private void selectQuery(String query) throws SQLException {
@@ -75,13 +75,8 @@ public class ConsoleController {
     }
 
     // TODO надо понять, куда положить результат и написать эту энтити
-    private int modifyDataQuery(String query) throws SQLException, QueryNotModifiableException {
-        var isNotModifiable = statement.execute(query);
-        int count;
-        if (!isNotModifiable)
-            return statement.getUpdateCount();
-        else
-            throw new QueryNotModifiableException();
+    private int modifyDataQuery(String query) throws SQLException {
+        return statement.executeUpdate(query);
     }
 
     // TODO надо понять, в какую энтити это сложить и как
