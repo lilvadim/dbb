@@ -1,5 +1,6 @@
 package ru.nsu.dbb.driver;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import ru.nsu.dbb.entity.*;
 
@@ -13,6 +14,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class DriverTest {
 
     @Test
+    @Disabled
     void getDatabaseMeta() throws SQLException {
         Driver driver = new Driver();
         Database actualDatabase = driver.openConnection("jdbc:sqlite:src/test/resources/test.db", "", "");

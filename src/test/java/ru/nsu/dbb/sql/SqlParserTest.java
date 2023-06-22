@@ -6,8 +6,8 @@ import org.junit.jupiter.api.Test;
 public class SqlParserTest {
     @Test
     void getTypeOfQuerySelect() {
-        SqlParser sqlParser = new SqlParser();
-        var actualQueryType = sqlParser.getTypeOfQuery(
+        SqlQueryTypeDetector sqlQueryTypeDetector = new SqlQueryTypeDetector();
+        var actualQueryType = sqlQueryTypeDetector.getTypeOfQuery(
                 """
                         SELECT * FROM my_table
                         """
@@ -17,8 +17,8 @@ public class SqlParserTest {
 
     @Test
     void getTypeOfQueryUpdate() {
-        SqlParser sqlParser = new SqlParser();
-        var actualQueryType = sqlParser.getTypeOfQuery(
+        SqlQueryTypeDetector sqlQueryTypeDetector = new SqlQueryTypeDetector();
+        var actualQueryType = sqlQueryTypeDetector.getTypeOfQuery(
                 """
                         UPDATE my_table
                         SET col1 = val1
@@ -30,8 +30,8 @@ public class SqlParserTest {
 
     @Test
     void getTypeOfQueryDelete() {
-        SqlParser sqlParser = new SqlParser();
-        var actualQueryType = sqlParser.getTypeOfQuery(
+        SqlQueryTypeDetector sqlQueryTypeDetector = new SqlQueryTypeDetector();
+        var actualQueryType = sqlQueryTypeDetector.getTypeOfQuery(
                 """
                         DELETE FRON my_table
                         WHERE col1 = val1
@@ -42,8 +42,8 @@ public class SqlParserTest {
 
     @Test
     void getTypeOfQueryInsert() {
-        SqlParser sqlParser = new SqlParser();
-        var actualQueryType = sqlParser.getTypeOfQuery(
+        SqlQueryTypeDetector sqlQueryTypeDetector = new SqlQueryTypeDetector();
+        var actualQueryType = sqlQueryTypeDetector.getTypeOfQuery(
                 """
                         INSERT INTO my_table (col1, col2)
                         VALUES (val1, val2)
@@ -54,8 +54,8 @@ public class SqlParserTest {
 
     @Test
     void getTypeOfQueryCreateTable() {
-        SqlParser sqlParser = new SqlParser();
-        var actualQueryType = sqlParser.getTypeOfQuery(
+        SqlQueryTypeDetector sqlQueryTypeDetector = new SqlQueryTypeDetector();
+        var actualQueryType = sqlQueryTypeDetector.getTypeOfQuery(
                 """
                         CREATE TABLE my_table (
                             col1 String,
@@ -68,8 +68,8 @@ public class SqlParserTest {
 
     @Test
     void getTypeOfQueryDropTable() {
-        SqlParser sqlParser = new SqlParser();
-        var actualQueryType = sqlParser.getTypeOfQuery(
+        SqlQueryTypeDetector sqlQueryTypeDetector = new SqlQueryTypeDetector();
+        var actualQueryType = sqlQueryTypeDetector.getTypeOfQuery(
                 """
                         DROP TABLE my_table
                         """
@@ -79,8 +79,8 @@ public class SqlParserTest {
 
     @Test
     void getTypeOfQueryAlterTable() {
-        SqlParser sqlParser = new SqlParser();
-        var actualQueryType = sqlParser.getTypeOfQuery(
+        SqlQueryTypeDetector sqlQueryTypeDetector = new SqlQueryTypeDetector();
+        var actualQueryType = sqlQueryTypeDetector.getTypeOfQuery(
                 """
                         ALTER TABLE my_table
                         ADD COLUMN new_col String
@@ -91,8 +91,8 @@ public class SqlParserTest {
 
     @Test
     void getTypeOfQueryExplainPlan() {
-        SqlParser sqlParser = new SqlParser();
-        var actualQueryType = sqlParser.getTypeOfQuery(
+        SqlQueryTypeDetector sqlQueryTypeDetector = new SqlQueryTypeDetector();
+        var actualQueryType = sqlQueryTypeDetector.getTypeOfQuery(
                 """
                         EXPLAIN PLAN SELECT * FROM my_table
                         """
@@ -102,8 +102,8 @@ public class SqlParserTest {
 
     @Test
     void getTypeOfQueryUnknown() {
-        SqlParser sqlParser = new SqlParser();
-        var actualQueryType = sqlParser.getTypeOfQuery(
+        SqlQueryTypeDetector sqlQueryTypeDetector = new SqlQueryTypeDetector();
+        var actualQueryType = sqlQueryTypeDetector.getTypeOfQuery(
                 """
                         something unknown
                         """

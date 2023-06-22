@@ -6,12 +6,11 @@ import ru.nsu.dbb.driver.Driver;
 import ru.nsu.dbb.entity.ConsoleLog;
 import ru.nsu.dbb.entity.Database;
 import ru.nsu.dbb.entity.DatabaseStorage;
-import ru.nsu.dbb.exceptions.QueryNotModifiableException;
 import ru.nsu.dbb.exceptions.UnknownQueryTypeException;
 import ru.nsu.dbb.explain_plan.SQLDialect;
 import ru.nsu.dbb.response.ExplainPlanResultPipe;
 import ru.nsu.dbb.response.SelectResultPipe;
-import ru.nsu.dbb.sql.SqlParser;
+import ru.nsu.dbb.sql.SqlQueryTypeDetector;
 
 import javax.inject.Inject;
 import java.sql.ResultSet;
@@ -24,7 +23,7 @@ import static ru.nsu.dbb.explain_plan.ExplainPlanParserKt.explainResultSetToTree
 @Getter
 public class ConsoleController {
     private final Driver driver;
-    private final SqlParser sqlParser;
+    private final SqlQueryTypeDetector sqlQueryTypeDetector;
 
     private final DatabaseStorage databaseStorage;
 
@@ -41,7 +40,7 @@ public class ConsoleController {
         Database currentDatabase = databaseStorage.getDatabase(databaseName);
         statement = driver.createStatement(currentDatabase.getURL());
 
-        var queryType = sqlParser.getTypeOfQuery(query);
+        var queryType = sqlQueryTypeDetector.getTypeOfQuery(query);
         switch (queryType) {
             case SELECT -> {
                 selectQuery(query);

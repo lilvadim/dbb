@@ -58,4 +58,9 @@ public class Database {
     public StringProperty nameProperty() {
         return name;
     }
+
+    @Override
+    public String toString() {
+        return getName();
+    }
 }

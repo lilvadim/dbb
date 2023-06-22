@@ -1,8 +1,8 @@
-package ru.nsu.dbb.sql
+package ru.nsu.dbb.sql.ddl
 
 import kotlin.reflect.KClass
 
-enum class SqlOperationParameter(
+enum class DdlOperationParameter(
     val fullName: String,
     val type: KClass<*>
 ) {
