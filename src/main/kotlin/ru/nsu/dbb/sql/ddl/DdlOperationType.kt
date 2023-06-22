@@ -24,6 +24,7 @@ enum class DdlOperationType(
         "Change Column Name",
         listOf(
             DdlOperationParameter.TABLE_NAME,
+            DdlOperationParameter.COLUMN_NAME,
             DdlOperationParameter.NEW_COLUMN_NAME
         )
     ),
